@@ -62,5 +62,17 @@ int read_pcd(std::string filename, std::vector<float>& pts){
   return num_pts;
 }
 
+void apply_affine(std::vector<float> &cloud, int num_pts, const Eigen::Matrix4f &trans){
+  Eigen::Map<Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>> mapped_cloud(cloud.data(), num_pts, 3);
+  mapped_cloud = (trans * mapped_cloud.rowwise().homogeneous().transpose()).transpose().rowwise().hnormalized();
+  cloud.clear();
+  for (std::size_t i = 0; i < mapped_cloud.rows(); i++)
+    {
+      cloud.push_back(mapped_cloud(i,0));
+      cloud.push_back(mapped_cloud(i,1));
+      cloud.push_back(mapped_cloud(i,2));
+    }
+}
+
 
 #endif /* COMPARISON_UTILITY_PCD_UTILS */
