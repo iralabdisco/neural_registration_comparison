@@ -20,6 +20,7 @@ bool is_valid(float x){
 }
 
 int read_pcd(std::string filename, std::vector<float>& pts){
+  pts.clear();
   std::ifstream pointcloud_file(filename.c_str());
   if (!pointcloud_file) {
     std::cerr << "Point cloud file not found." << std::endl;
