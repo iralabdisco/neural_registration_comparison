@@ -20,7 +20,6 @@ namespace
     std::vector<float> pts;
     int n_points = read_pcd(pointcloud_filename, pts);
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
     Eigen::Map<Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>> mapped_array(pts.data(), n_points, 3);
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr orig_cloud(new pcl::PointCloud<pcl::PointXYZ>);
@@ -46,7 +45,6 @@ namespace
     std::vector<float> pts;
     int n_points = read_pcd(pointcloud_filename, pts);
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
     Eigen::Map<Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>> mapped_array(pts.data(), n_points, 3);
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr orig_cloud(new pcl::PointCloud<pcl::PointXYZ>);
@@ -66,7 +64,8 @@ namespace
     }
   }
 
-    TEST(ApplyAffine, ApplyAffineTest)
+  
+  TEST(ApplyAffine, ApplyAffineTest)
   {
     std::string pointcloud_filename("test.pcd");
     std::vector<float> pts;
