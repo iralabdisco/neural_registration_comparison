@@ -13,7 +13,7 @@ ROTATION_COST_THRESHOLD="1e-12"
 ROTATION_TIM_GRAPH='CHAIN'
 INLIER_SELECTION_MODE='PMC_EXACT'
 KCORE_HEURISTIC_THRESHOLD="0.5"
-DISTANCE_METRIC="l2"
+DISTANCE_METRIC="euclidean" #for valid metrics see https://github.com/scikit-learn/scikit-learn/issues/4520#issuecomment-89837739
 
 ## KAIST
 # uban05_global
