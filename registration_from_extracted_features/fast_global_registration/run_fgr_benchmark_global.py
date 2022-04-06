@@ -3,12 +3,12 @@ from multiprocessing import Pool
 
 PY3="python3"
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
-FEATURES_DIR="/neural_comparison/experiments/3DFeatNet/feature_extraction_voxelgrid_0.2/"
-RESULTS_DIR="/neural_comparison/experiments/3DFeatNet/results_fgr_voxelgrid_0.2/"
+FEATURES_DIR="/neural_comparison/experiments/3DFeatNet/feature_extraction_voxelgrid_0.1/"
+RESULTS_DIR="/neural_comparison/experiments/3DFeatNet/results_fgr_voxelgrid_0.1/"
 
 DISTANCE_METRIC="euclidean" #for valid metrics see https://github.com/scikit-learn/scikit-learn/issues/4520#issuecomment-89837739
 
-VOXEL_SIZE = 0.2
+VOXEL_SIZE = 0.1
 
 DECREASE_MU = True
 DIVISION_FACTOR = 1.4
@@ -85,7 +85,7 @@ for problem_txt, pcd_dir, features_dir in zip(problem_txts, pcd_dirs, features_d
                     f' --input_txt={BENCHMARK_DIR}/{problem_txt}' +
                     f' --input_pcd_dir={BENCHMARK_DIR}/{pcd_dir}' +
                     f' --input_features_dir={FEATURES_DIR}/{features_dir}' +
-                    f' --output_dir={RESULTS_DIR}/{features_dir}')
+                    f' --output_dir={RESULTS_DIR}')
     commands.append(full_command)
 
 pool = Pool(4)

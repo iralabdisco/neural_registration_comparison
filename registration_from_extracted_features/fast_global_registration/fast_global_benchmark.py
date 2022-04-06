@@ -52,7 +52,10 @@ def main():
 
     header_comment = "# " + " ".join(sys.argv[:]) + "\n"
     header = ['id', 'initial_error', 'final_error', 'flops', 'transformation']
-    result_filename = os.path.join(args.output_dir, os.path.basename(args.input_txt))
+
+    problem_name = os.path.splitext(os.path.basename(args.input_txt))[0]
+    result_name = problem_name + "_result.txt"
+    result_filename = os.path.join(args.output_dir, result_name)
 
     with open(result_filename, mode='w') as f:
         f.write(header_comment)
