@@ -22,6 +22,25 @@ parser.add_argument('--output_dir', type=str,
 # Feature matching parameters
 parser.add_argument('--distance_metric', type=str,
                     help='Distance metric to use to find correspondences')
+# FGR parameters
+parser.add_argument('--decrease_mu', type=bool,
+                    help='Set to True to decrease scale mu by division_factor for graduated non-convexity.')
+parser.add_argument('--division_factor', type=float,
+                    help='Division factor used for graduated non-convexity')
+parser.add_argument('--iteration_number', type=int,
+                    help='Maximum number of iterations')
+parser.add_argument('--maximum_correspondence_distance', type=float,
+                    help='Maximum correspondence distance')
+parser.add_argument('--maximum_tuple_count', type=float,
+                    help='Maximum tuple numbers')
+parser.add_argument('--tuple_scale', type=float,
+                    help='Similarity measure used for tuples of feature points')
+parser.add_argument('--tuple_test', type=bool,
+                    help='Set to true to perform geometric compatibility tests on initial set of correspondences')
+parser.add_argument('--use_absolute_scale', type=bool,
+                    help='Measure distance in absolute scale (1) or in scale relative to the diameter of the model (0).')
+parser.add_argument('--seed', type=int,
+                    help='Random seed.')
 
 args = parser.parse_args()
 
@@ -40,7 +59,16 @@ def main():
         csv_writer = csv.writer(f, delimiter=';')
         csv_writer.writerow(header)
 
-    for index, row in df.iterrows():
+    fgr_options = o3d.pipelines.registration.FastGlobalRegistrationOption(
+                    decrease_mu = args.decrease_mu,
+                    division_factor = args.division_factor,
+                    iteration_number = args.iteration_number, 
+                    maximum_correspondence_distance = args.maximum_correspondence_distance,
+                    tuple_scale = args.tuple_scale, 
+                    tuple_test = args.tuple_test, 
+                    use_absolute_scale = args.use_absolute_scale)
+
+    for index, row in df.iterrows():    
         problem_id = row['id']
 
         source_pcd_filename = row['source']
@@ -95,7 +123,7 @@ def main():
         target_xyz = o3d.geometry.PointCloud(target_xyz)
 
         result_fast = o3d.pipelines.registration.registration_fgr_based_on_correspondence(
-            source_xyz, target_xyz, corres)
+            source_xyz, target_xyz, corres, fgr_options)
 
         registration_solution = result_fast.transformation        
 
