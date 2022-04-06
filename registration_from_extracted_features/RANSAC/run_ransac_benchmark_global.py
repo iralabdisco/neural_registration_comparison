@@ -79,7 +79,7 @@ for problem_txt, pcd_dir, features_dir in zip(problem_txts, pcd_dirs, features_d
                     f' --input_txt={BENCHMARK_DIR}/{problem_txt}' +
                     f' --input_pcd_dir={BENCHMARK_DIR}/{pcd_dir}' +
                     f' --input_features_dir={FEATURES_DIR}/{features_dir}' +
-                    f' --output_dir={RESULTS_DIR}/{features_dir}')
+                    f' --output_dir={RESULTS_DIR}/')
     commands.append(full_command)
 
 pool = Pool(4)
