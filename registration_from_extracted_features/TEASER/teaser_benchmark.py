@@ -168,6 +168,8 @@ def main():
         logging.debug("Solving " + str(problem_id))
         logging.debug("Target features: " + os.path.splitext(target_pcd_filename)[0] + '.csv')
         logging.debug("Source features: " + str(problem_id) + '.csv')
+        logging.debug("Target corres: " + str(len(T_corr)))
+        logging.debug("Source corres: " + str(len(S_corr)))
 
         teaserpp_solver = teaserpp_python.RobustRegistrationSolver(solver_params)
 
