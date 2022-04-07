@@ -10,6 +10,8 @@ import os, copy, csv, sys
 import metric
 import helpers
 
+import logging
+
 parser = argparse.ArgumentParser(description='Compute benchmark problems')
 parser.add_argument('--gpu', type=int, default=3,
                     help='GPU to use (default: 0)')
@@ -49,7 +51,8 @@ parser.add_argument('--distance_metric', type=str,
 args = parser.parse_args()
 
 def main():
-    os.makedirs(args.output_dir, exist_ok=True) 
+    os.makedirs(args.output_dir, exist_ok=True)
+    os.makedirs('logs', exist_ok=True)
 
     df = pd.read_csv(args.input_txt, sep=' ', comment='#')
     df = df.reset_index()
@@ -60,6 +63,11 @@ def main():
     problem_name = os.path.splitext(os.path.basename(args.input_txt))[0]
     result_name = problem_name + "_result.txt"
     result_filename = os.path.join(args.output_dir, result_name)
+
+    logname = 'logs/' + problem_name + '.log'
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+    logging.basicConfig(filename=logname, level=logging.DEBUG, filemode='w')
 
     with open(result_filename, mode='w') as f:
         f.write(header_comment)
@@ -106,7 +114,10 @@ def main():
 
     solver_params.kcore_heuristic_threshold = args.kcore_heuristic_threshold
 
-    print("TEASER++ Parameters are:", solver_params)
+    logging.info(solver_params)
+
+    n_problems = len(df.index)
+    logging.info("Total problems: " + str(n_problems))
 
     for index, row in df.iterrows():
         problem_id = row['id']
@@ -155,7 +166,7 @@ def main():
         S_corr = source_xyz[corrs_S, :]
 
         # solve with TEASER++
-        print("SOLVING " + str(problem_id))
+        logging.info("Solving " + str(problem_id))
 
         teaserpp_solver = teaserpp_python.RobustRegistrationSolver(solver_params)
 
@@ -170,6 +181,7 @@ def main():
         registered_source_pcd.transform(registration_solution)
         final_error = metric.calculate_error(source_pcd, registered_source_pcd)
 
+        logging.info("Solved problems: " + str(index + 1))
         # write results to file
         str_solution = ' '.join(map(str, registration_solution.ravel()))
         results = [problem_id, initial_error, final_error, 
