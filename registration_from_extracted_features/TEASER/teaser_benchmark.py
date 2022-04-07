@@ -117,7 +117,6 @@ def main():
     logging.info(solver_params)
 
     n_problems = len(df.index)
-    logging.info("Total problems: " + str(n_problems))
 
     for index, row in df.iterrows():
         problem_id = row['id']
@@ -166,7 +165,9 @@ def main():
         S_corr = source_xyz[corrs_S, :]
 
         # solve with TEASER++
-        logging.info("Solving " + str(problem_id))
+        logging.debug("Solving " + str(problem_id))
+        logging.debug("Target features: " + os.path.splitext(target_pcd_filename)[0] + '.csv')
+        logging.debug("Source features: " + str(problem_id) + '.csv')
 
         teaserpp_solver = teaserpp_python.RobustRegistrationSolver(solver_params)
 
@@ -181,7 +182,8 @@ def main():
         registered_source_pcd.transform(registration_solution)
         final_error = metric.calculate_error(source_pcd, registered_source_pcd)
 
-        logging.info("Solved problems: " + str(index + 1))
+        logging.info("Solved problems: " + str(index + 1) + "/" + str(n_problems))
+
         # write results to file
         str_solution = ' '.join(map(str, registration_solution.ravel()))
         results = [problem_id, initial_error, final_error, 
