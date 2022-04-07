@@ -1,5 +1,5 @@
 # fast_global_benchmark.py --distance_metric=euclidean --decrease_mu=True --division_factor=1.4 --iteration_number=150 --maximum_correspondence_distance=0.05 --maximum_tuple_count=1000 --tuple_scale=0.95 --tuple_test=True --use_absolute_scale=False --input_txt=/neural_comparison/point_clouds_registration_benchmark//eth/plain_global.txt --input_pcd_dir=/neural_comparison/point_clouds_registration_benchmark//eth/plain/ --input_features_dir=/neural_comparison/experiments/3DFeatNet/feature_extraction_voxelgrid_0.1//eth/plain/ --output_dir=/neural_comparison/experiments/3DFeatNet/results_fgr_voxelgrid_0.1/
-id;initial_error;final_error;flops;transformation
+id;initial_error;final_error;transformation
 4215528470030;7.9427285406441825;6.181828548228152;1.0  -0.0  0.0  -1.7318526820845541  -0.0  1.0  -0.0  -1.0946884337144995  0.0  -0.0  1.0  5.519190991248524  -0.0  0.0  -0.0  1.0
 4215528470061;8.5731783167614;8.666121456742772;0.6106848765955571  0.7839458950096025  0.11177126283202123  -0.6416751149458781  -0.786272107855455  0.6170533733623932  -0.03195789152356505  12.510023382658492  -0.09402209264853419  -0.06836642538327678  0.9932199544785142  7.311190827601892  0.0  -0.0  -0.0  1.0
 4215528470092;7.21989676751356;8.425398028024912;1.0  -0.0  0.0  2.195402970527292  -0.0  1.0  -0.0  -7.435257626440432  0.0  -0.0  1.0  5.387196312376711  -0.0  0.0  -0.0  1.0

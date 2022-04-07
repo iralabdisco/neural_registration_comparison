@@ -1,5 +1,5 @@
 # ransac_benchmark.py --distance_metric=euclidean --max_correspondence_distance=0.15000000000000002 --estimation_method=TransformationEstimationPointToPoint --ransac_n=3 --ransac_confidence=0.999 --ransac_max_iteration=100000 --input_txt=/neural_comparison/point_clouds_registration_benchmark//tum/long_office_household_global.txt --input_pcd_dir=/neural_comparison/point_clouds_registration_benchmark//tum/long_office_household/ --input_features_dir=/neural_comparison/experiments/3DFeatNet/feature_extraction_voxelgrid_0.1//tum/long_office_household/ --output_dir=/neural_comparison/experiments/3DFeatNet/results_ransac_voxelgrid_0.1//
-id;initial_error;final_error;flops;transformation
+id;initial_error;final_error;transformation
 26456013410030;nan;nan;1.0  0.0  0.0  -1.5913552999999996  0.0  1.0  0.0  -7.65091003  0.0  0.0  1.0  -2.4970785200000005  0.0  0.0  0.0  1.0
 26456013410061;nan;nan;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0
 26456013410092;nan;nan;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0

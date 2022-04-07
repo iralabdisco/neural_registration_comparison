@@ -1,5 +1,5 @@
 # fast_global_benchmark.py --distance_metric=euclidean --decrease_mu=True --division_factor=1.4 --iteration_number=150 --maximum_correspondence_distance=0.05 --maximum_tuple_count=1000 --tuple_scale=0.95 --tuple_test=True --use_absolute_scale=False --input_txt=/neural_comparison/point_clouds_registration_benchmark//tum/pioneer_slam3_global.txt --input_pcd_dir=/neural_comparison/point_clouds_registration_benchmark//tum/pioneer_slam3/ --input_features_dir=/neural_comparison/experiments/3DFeatNet/feature_extraction_voxelgrid_0.1//tum/pioneer_slam3/ --output_dir=/neural_comparison/experiments/3DFeatNet/results_fgr_voxelgrid_0.1/
-id;initial_error;final_error;flops;transformation
+id;initial_error;final_error;transformation
 39885980090030;nan;nan;1.0  -0.0  0.0  3.852836398225806  -0.0  1.0  -0.0  -4.694140329973118  0.0  -0.0  1.0  7.054673521710753  -0.0  0.0  -0.0  1.0
 39885980090061;nan;nan;1.0  -0.0  0.0  9.774528854875  -0.0  1.0  -0.0  7.409218569999999  -0.0  -0.0  1.0  5.93188182046875  -0.0  0.0  -0.0  1.0
 39885980090092;nan;nan;1.0  -0.0  0.0  0.6922349083333348  -0.0  1.0  -0.0  5.034294633630952  -0.0  -0.0  1.0  12.694324966359167  -0.0  0.0  -0.0  1.0

@@ -1,5 +1,5 @@
 # fast_global_benchmark.py --distance_metric=euclidean --decrease_mu=True --division_factor=1.4 --iteration_number=150 --maximum_correspondence_distance=0.05 --maximum_tuple_count=1000 --tuple_scale=0.95 --tuple_test=True --use_absolute_scale=False --input_txt=/neural_comparison/point_clouds_registration_benchmark//planetary/box_met_global.txt --input_pcd_dir=/neural_comparison/point_clouds_registration_benchmark//planetary/box_met/ --input_features_dir=/neural_comparison/experiments/3DFeatNet/feature_extraction_voxelgrid_0.1//planetary/box_met/ --output_dir=/neural_comparison/experiments/3DFeatNet/results_fgr_voxelgrid_0.1/
-id;initial_error;final_error;flops;transformation
+id;initial_error;final_error;transformation
 7680147070030;7.545142564026325;2.2662855445856263;1.0  -0.0  0.0  1.8997657738070757  -0.0  1.0  -0.0  -1.5427046928575658  0.0  0.0  1.0  -2.4682186716929535  -0.0  0.0  -0.0  1.0
 7680147070061;10.640927348979892;12.992623913231785;1.0  -0.0  0.0  11.25237022848053  -0.0  1.0  -0.0  8.00237013867405  -0.0  -0.0  1.0  12.485289781860383  -0.0  0.0  -0.0  1.0
 7680147070092;9.025949398967478;13.801924953789374;1.0  -0.0  0.0  3.8352542853553047  -0.0  1.0  -0.0  -16.93185178105289  0.0  -0.0  1.0  20.773801464402048  -0.0  0.0  -0.0  1.0

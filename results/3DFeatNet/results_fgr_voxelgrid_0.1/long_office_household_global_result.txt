@@ -1,5 +1,5 @@
 # fast_global_benchmark.py --distance_metric=euclidean --decrease_mu=True --division_factor=1.4 --iteration_number=150 --maximum_correspondence_distance=0.05 --maximum_tuple_count=1000 --tuple_scale=0.95 --tuple_test=True --use_absolute_scale=False --input_txt=/neural_comparison/point_clouds_registration_benchmark//tum/long_office_household_global.txt --input_pcd_dir=/neural_comparison/point_clouds_registration_benchmark//tum/long_office_household/ --input_features_dir=/neural_comparison/experiments/3DFeatNet/feature_extraction_voxelgrid_0.1//tum/long_office_household/ --output_dir=/neural_comparison/experiments/3DFeatNet/results_fgr_voxelgrid_0.1/
-id;initial_error;final_error;flops;transformation
+id;initial_error;final_error;transformation
 26456013410030;nan;nan;1.0  -0.0  0.0  -5.700577683582887  -0.0  1.0  -0.0  -8.194907299518716  0.0  -0.0  1.0  -6.870551430625668  -0.0  0.0  -0.0  1.0
 26456013410061;nan;nan;1.0  -0.0  0.0  1.2639624258333337  -0.0  1.0  -0.0  4.2081354766666665  -0.0  -0.0  1.0  0.7505722920966666  -0.0  0.0  -0.0  1.0
 26456013410092;nan;nan;1.0  -0.0  0.0  -0.6000190875  -0.0  1.0  -0.0  -1.7465807375  0.0  -0.0  1.0  -10.8175383275  -0.0  0.0  -0.0  1.0
