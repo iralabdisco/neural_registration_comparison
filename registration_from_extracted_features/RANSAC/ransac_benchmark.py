@@ -52,7 +52,7 @@ def main():
     df = df.reset_index()
 
     header_comment = "# " + " ".join(sys.argv[:]) + "\n"
-    header = ['id', 'initial_error', 'final_error', 'flops', 'transformation']
+    header = ['id', 'initial_error', 'final_error', 'transformation']
 
     problem_name = os.path.splitext(os.path.basename(args.input_txt))[0]
     result_name = problem_name + "_result.txt"
