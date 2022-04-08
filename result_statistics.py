@@ -34,6 +34,9 @@ def main(args):
     df_stats = pd.DataFrame(stats_data, columns=stats_columns)
     print(df_stats)
 
+    if(args.output_file is not None):
+        df_stats.to_csv(args.output_file, na_rep='NaN')
+
 
 if __name__ == '__main__':
 
