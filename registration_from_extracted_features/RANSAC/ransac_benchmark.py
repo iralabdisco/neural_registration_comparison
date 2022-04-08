@@ -84,11 +84,13 @@ def main():
 
         source_pcd_filename = row['source']
         source_pcd_file = os.path.join(args.input_pcd_dir, source_pcd_filename)
-        source_pcd = o3d.io.read_point_cloud(source_pcd_file)
+        source_pcd = o3d.io.read_point_cloud(source_pcd_file, remove_nan_points=True, 
+                                            remove_infinite_points=True)
 
         target_pcd_filename = row['target']
         target_pcd_file = os.path.join(args.input_pcd_dir, target_pcd_filename)
-        target_pcd = o3d.io.read_point_cloud(target_pcd_file)
+        target_pcd = o3d.io.read_point_cloud(target_pcd_file, remove_nan_points=True, 
+                                            remove_infinite_points=True)
 
         source_transform = np.eye(4)
         source_transform[0][0] = row['t1']
