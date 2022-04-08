@@ -163,22 +163,29 @@ def main():
 
         T_corr = target_xyz[corrs_T, :]
         S_corr = source_xyz[corrs_S, :]
-
-        # solve with TEASER++
+    
         logging.debug("Solving " + str(problem_id))
-        logging.debug("Target features: " + os.path.splitext(target_pcd_filename)[0] + '.csv')
-        logging.debug("Source features: " + str(problem_id) + '.csv')
+        logging.debug("Target features file: " + os.path.splitext(target_pcd_filename)[0] + '.csv')
+        logging.debug("Source features file: " + str(problem_id) + '.csv')
+        logging.debug("Number of target features: " + str(len(target_features)))
+        logging.debug("Number of source features: " + str(len(source_features)))
         logging.debug("Target corres: " + str(len(T_corr)))
         logging.debug("Source corres: " + str(len(S_corr)))
 
-        teaserpp_solver = teaserpp_python.RobustRegistrationSolver(solver_params)
+        if (len(T_corr) > 1):
+            # solve with TEASER++
+            logging.debug("Solving with TEASER")
+            teaserpp_solver = teaserpp_python.RobustRegistrationSolver(solver_params)
 
-        teaserpp_solver.solve(S_corr.transpose(), T_corr.transpose())
-        solution = teaserpp_solver.getSolution()
+            teaserpp_solver.solve(S_corr.transpose(), T_corr.transpose())
+            solution = teaserpp_solver.getSolution()
 
-        registration_solution = np.eye(4)
-        registration_solution[0:3, 3] = solution.translation.transpose()
-        registration_solution[0:3, 0:3] = solution.rotation
+            registration_solution = np.eye(4)
+            registration_solution[0:3, 3] = solution.translation.transpose()
+            registration_solution[0:3, 0:3] = solution.rotation
+        else:
+            logging.debug("Not solving due to insufficient corrispondences")
+            registration_solution = np.eye(4)
 
         registered_source_pcd = copy.deepcopy(source_pcd)
         registered_source_pcd.transform(registration_solution)
