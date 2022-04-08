@@ -1,8 +1,8 @@
 import glob, sys, os
 import pandas as pd
+import argparse
 
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
-RESULTS_DIR="/neural_comparison/experiments/3DFeatNet/results_teaser_voxelgrid_0.1/"
 
 def check_file(problem_file, result_file):
     df_problem = pd.read_csv(problem_file, sep=';')
@@ -17,7 +17,7 @@ def check_file(problem_file, result_file):
     
     print("OK")
 
-def main():
+def main(args):
     problem_txts = ['kaist/urban05_global.txt',
                     'eth/apartment_global.txt', 
                     'eth/gazebo_summer_global.txt',
@@ -39,10 +39,14 @@ def main():
         problem_name = os.path.splitext(os.path.basename(problem_txt))[0]
         result_txt = problem_name + "_result.txt"
         problem_file = os.path.join(BENCHMARK_DIR, problem_txt)
-        result_file = os.path.join(RESULTS_DIR, result_txt)
+        result_file = os.path.join(args.input_dir, result_txt)
         print("---------------")
         print(result_txt)
         check_file(problem_file, result_file)
 
 if __name__ == '__main__':
-    main()
+
+    parser = argparse.ArgumentParser(description='Check results')
+    parser.add_argument('input_dir', type=str, help='Directory where the result files are located')
+    args = parser.parse_args()
+    main(args)
