@@ -23,17 +23,30 @@ def main(args):
                         comment='#')
         total_df = pd.concat([total_df, df])
         sequence_name = os.path.splitext(os.path.basename(f))[0]
+        sequence_name=sequence_name.split("_")
+        sequence_name="_".join(sequence_name[:-2])
         stats = list(compute_stats_from_df(df))
         stats.insert(0, sequence_name)
         stats_data.append(stats)    
 
     #calculate stats for all problems together
     stats = list(compute_stats_from_df(total_df))
-    stats.insert(0, "total")
+    stats.insert(0, "Total")
     stats_data.append(stats) 
     
     stats_columns = ["sequence", "median", "0.75 Q", "0.95 Q", "mean", "std_dev"]
     df_stats = pd.DataFrame(stats_data, columns=stats_columns)
+
+    df_stats['sequence'] = pd.Categorical(df_stats['sequence'], ["plain", "stairs", "apartment",
+                                                                "hauptgebaude", "wood_autumn", "wood_summer",
+                                                                "gazebo_summer", "gazebo_winter", "box_met",
+                                                                "p2at_met", "planetary_map", "pioneer_slam",
+                                                                "pioneer_slam3", "long_office_household",
+                                                                "urban05", "Total"])
+                                                                
+                                                                
+    df_stats.set_index("sequence", inplace=True)
+    df_stats = df_stats.sort_values("sequence")
     print(df_stats)
 
     if(args.output_file is not None):
@@ -43,7 +56,7 @@ def main(args):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Compute results statistics')
-    parser.add_argument('--input_dir', type=str, help='Directory where the result files are located')
+    parser.add_argument('input_dir', type=str, help='Directory where the result files are located')
     parser.add_argument('--output_file', type=str, help='File where the stats will be saved')
     args = parser.parse_args()
     main(args)
