@@ -47,7 +47,7 @@ def main(args):
                                                                 
     df_stats.set_index("sequence", inplace=True)
     df_stats = df_stats.sort_values("sequence")
-    print(df_stats)
+    print(df_stats.reset_index().to_string(index=False))
 
     if(args.output_file is not None):
         df_stats.to_csv(args.output_file, na_rep='NaN')
