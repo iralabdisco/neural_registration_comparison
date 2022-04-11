@@ -150,8 +150,8 @@ def main():
         initial_error = metric.calculate_error(source_pcd, moved_source_pcd)
         
         # find correspondences between target and source features
-        target_df = pd.read_csv(os.path.join(args.input_features_dir, os.path.splitext(target_pcd_filename)[0] + '.csv'), comment='#')
-        source_df = pd.read_csv(os.path.join(args.input_features_dir, str(problem_id) + '.csv'), comment='#')
+        target_df = pd.read_csv(os.path.join(args.input_features_dir, f'{str(problem_id)}_target.csv'), comment='#')
+        source_df = pd.read_csv(os.path.join(args.input_features_dir, f'{str(problem_id)}_source.csv'), comment='#')
 
         target_features = target_df.loc[:, target_df.columns.difference(['x','y','z'])].to_numpy()
         source_features = source_df.loc[:, source_df.columns.difference(['x','y','z'])].to_numpy()
