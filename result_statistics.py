@@ -5,10 +5,12 @@ import os, copy, csv, sys
 
 def compute_stats_from_df (df):
     median_error = np.median(df.final_error)
+    q_075 = np.quantile(df.final_error, 0.75)
+    q_095 = np.quantile(df.final_error, 0.95)
     mean_error = np.mean(df.final_error)
     std_dev = np.std(df.final_error)
 
-    return median_error, mean_error, std_dev
+    return median_error, q_075, q_095, mean_error, std_dev
 
 def main(args):
     total_df = pd.DataFrame()
@@ -30,7 +32,7 @@ def main(args):
     stats.insert(0, "total")
     stats_data.append(stats) 
     
-    stats_columns = ["sequence", "median", "mean", "std_dev"]
+    stats_columns = ["sequence", "median", "0.75 Q", "0.95 Q", "mean", "std_dev"]
     df_stats = pd.DataFrame(stats_data, columns=stats_columns)
     print(df_stats)
 
