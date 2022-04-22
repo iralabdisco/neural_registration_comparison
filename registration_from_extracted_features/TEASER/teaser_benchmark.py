@@ -6,6 +6,7 @@ import teaserpp_python
 
 import argparse
 import os, copy, csv, sys
+from tqdm import tqdm
 
 import metric
 import helpers
@@ -118,7 +119,8 @@ def main():
 
     n_problems = len(df.index)
 
-    for index, row in df.iterrows():
+    print(problem_name)
+    for index, row in tqdm(df.iterrows(), total=df.shape[0]):
         problem_id = row['id']
 
         source_pcd_filename = row['source']
@@ -150,14 +152,14 @@ def main():
         initial_error = metric.calculate_error(source_pcd, moved_source_pcd)
         
         # find correspondences between target and source features
-        target_df = pd.read_csv(os.path.join(args.input_features_dir, os.path.splitext(target_pcd_filename)[0] + '.csv'), comment='#')
-        source_df = pd.read_csv(os.path.join(args.input_features_dir, str(problem_id) + '.csv'), comment='#')
+        target_npz = np.load(os.path.join(args.input_features_dir, os.path.splitext(target_pcd_filename)[0]) + '.npz')
+        source_npz = np.load(os.path.join(args.input_features_dir, str(problem_id)) + '.npz')
 
-        target_features = target_df.loc[:, target_df.columns.difference(['x','y','z'])].to_numpy()
-        source_features = source_df.loc[:, source_df.columns.difference(['x','y','z'])].to_numpy()
+        target_features = target_npz['features']
+        source_features = source_npz['features']
         
-        target_xyz = target_df[['x', 'y', 'z']].to_numpy()
-        source_xyz = source_df[['x', 'y', 'z']].to_numpy()
+        target_xyz = target_npz['xyz_down']
+        source_xyz = source_npz['xyz_down']
 
         corrs_T, corrs_S = helpers.find_correspondences(
             target_features, source_features, distance_metric=args.distance_metric, mutual_filter=True)
