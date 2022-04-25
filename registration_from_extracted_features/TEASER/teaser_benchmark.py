@@ -184,9 +184,9 @@ def main():
             teaserpp_solver.solve(S_corr.transpose(), T_corr.transpose())
             solution = teaserpp_solver.getSolution()
 
-            registration_solution = np.eye(4)
-            registration_solution[0:3, 3] = solution.translation.transpose()
+            registration_solution = np.eye(4)       
             registration_solution[0:3, 0:3] = solution.rotation
+            registration_solution[:3, 3] = solution.translation
         else:
             logging.debug("Not solving due to insufficient corrispondences")
             registration_solution = np.eye(4)

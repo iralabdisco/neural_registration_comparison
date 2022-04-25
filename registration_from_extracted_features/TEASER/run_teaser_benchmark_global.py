@@ -3,13 +3,13 @@ from multiprocessing import Pool
 
 PY3="python3"
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
-FEATURES_DIR="/neural_comparison/experiments/FCGF/features/"
-RESULTS_DIR="/root/neural_registration_comparison/results/FCGF/teaser/"
+FEATURES_DIR="/neural_comparison/experiments/FPFH/features/"
+RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/teaser/"
 
 DISTANCE_METRIC="euclidean" #for valid metrics see https://github.com/scikit-learn/scikit-learn/issues/4520#issuecomment-89837739
 
 CBAR2=1
-NOISE_BOUND=0.2 #voxel size
+NOISE_BOUND=0.1 #voxel size
 ESTIMATE_SCALING= False
 ROTATION_ESTIMATION_ALGORITHM='GNC_TLS'
 ROTATION_GNC_FACTOR=1.4
