@@ -43,11 +43,14 @@ def main(args):
     # Populate teaser parameters
     solver_params = teaserpp_python.RobustRegistrationSolver.Params()
     solver_params.cbar2 = args.cbar2
+    logging.info(solver_params.cbar2)
     solver_params.noise_bound = args.noise_bound
+    logging.info(solver_params.noise_bound)
     if (args.estimate_scaling == "True"):
         solver_params.estimate_scaling = True
     else:
         solver_params.estimate_scaling = False
+    logging.info(solver_params.estimate_scaling)
     if (args.rotation_estimation_algorithm == "GNC_TLS"):
         solver_params.rotation_estimation_algorithm = (
             teaserpp_python.RobustRegistrationSolver.ROTATION_ESTIMATION_ALGORITHM.GNC_TLS
@@ -58,18 +61,20 @@ def main(args):
         )
     else:
         raise ValueError('Specified rotation_estimation_algorithm does not exist')
-
+    logging.info(solver_params.rotation_estimation_algorithm)
     solver_params.rotation_gnc_factor = args.rotation_gnc_factor
+    logging.info(solver_params.rotation_gnc_factor)
     solver_params.rotation_max_iterations = args.rotation_max_iterations
+    logging.info(solver_params.rotation_max_iterations)
     solver_params.rotation_cost_threshold = args.rotation_cost_threshold
-
+    logging.info(solver_params.rotation_cost_threshold)
     if(args.rotation_tim_graph == "CHAIN"):
         solver_params.rotation_tim_graph = (teaserpp_python.RobustRegistrationSolver.INLIER_GRAPH_FORMULATION.CHAIN)
     elif(args.rotation_tim_graph == "COMPLETE"):
         solver_params.rotation_tim_graph = (teaserpp_python.RobustRegistrationSolver.INLIER_GRAPH_FORMULATION.COMPLETE)
     else:
         raise ValueError('Specified rotation_tim_graph does not exist')
-
+    logging.info(solver_params.rotation_tim_graph)
     if (args.inlier_selection_mode == "PMC_EXACT"):
         solver_params.inlier_selection_mode = (teaserpp_python.RobustRegistrationSolver.INLIER_SELECTION_MODE.PMC_EXACT)
     elif (args.inlier_selection_mode == "PMC_HEU"):
@@ -80,13 +85,11 @@ def main(args):
         solver_params.inlier_selection_mode = (teaserpp_python.RobustRegistrationSolver.INLIER_SELECTION_MODE.NONE)
     else:
         raise ValueError('Specified inlier_selection_mode does not exist')
-
+    logging.info(solver_params.inlier_selection_mode)
     solver_params.kcore_heuristic_threshold = args.kcore_heuristic_threshold
-
-    logging.info(solver_params)
+    logging.info(solver_params.kcore_heuristic_threshold)
 
     n_problems = len(df.index)
-
     print(problem_name)
     for index, row in tqdm(df.iterrows(), total=df.shape[0]):
         problem_id = row['id']
@@ -136,15 +139,15 @@ def main(args):
         logging.debug("Source features file: " + str(problem_id) + '.csv')
         logging.debug("Number of target features: " + str(len(target_features)))
         logging.debug("Number of source features: " + str(len(source_features)))
-        logging.debug("Target corres: " + str(len(T_corr)))
-        logging.debug("Source corres: " + str(len(S_corr)))
+        logging.debug("Target corres: " + str(len(T_corr.transpose())))
+        logging.debug("Source corres: " + str(len(S_corr.transpose())))
 
-        if (len(T_corr) > 1):
+        if (len(T_corr.transpose()) > 1):
             # solve with TEASER++
             logging.debug("Solving with TEASER")
-            teaserpp_solver = teaserpp_python.RobustRegistrationSolver(solver_params)
+            #teaserpp_solver = teaserpp_python.RobustRegistrationSolver(solver_params)
 
-            #teaserpp_solver = helpers.get_teaser_solver(0.1)
+            teaserpp_solver = helpers.get_teaser_solver(0.1)
             teaserpp_solver.solve(S_corr,T_corr)
             solution = teaserpp_solver.getSolution()
 
