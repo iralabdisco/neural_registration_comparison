@@ -1,57 +1,22 @@
-import pandas as pd
-import numpy as np
-from sklearn.neighbors import KDTree
-import open3d as o3d
-import teaserpp_python
-
 import argparse
-import os, copy, csv, sys
+import copy
+import csv
+import logging
+import os
+import sys
+
+import numpy as np
+import open3d as o3d
+import pandas as pd
+import teaserpp_python
+from sklearn.neighbors import KDTree
 from tqdm import tqdm
 
-import metric
 import helpers
+import metric
 
-import logging
 
-parser = argparse.ArgumentParser(description='Compute benchmark problems')
-parser.add_argument('--gpu', type=int, default=3,
-                    help='GPU to use (default: 0)')
-# Input/checkpoint/output paths
-parser.add_argument('--input_txt', type=str,
-                    help='Path to the problem .txt')
-parser.add_argument('--input_pcd_dir', type=str,
-                    help='Directory which contains the pcd files')
-parser.add_argument('--input_features_dir', type=str,
-                    help='Directory which contains the features')
-parser.add_argument('--output_dir', type=str,
-                    help='Directory to save the results to')
-# TEASER parameters
-parser.add_argument('--cbar2', type=float,
-                    help='TEASER cbar2')
-parser.add_argument('--noise_bound', type=float,
-                    help='TEASER noise_bound')
-parser.add_argument('--estimate_scaling', type=bool,
-                    help='TEASER estimate_scaling')
-parser.add_argument('--rotation_estimation_algorithm', type=str,
-                    help='TEASER rotation_estimation_algorithm')
-parser.add_argument('--rotation_gnc_factor', type=float,
-                    help='TEASER rotation_gnc_factor')
-parser.add_argument('--rotation_max_iterations', type=int,
-                    help='TEASER rotation_max_iterations')
-parser.add_argument('--rotation_cost_threshold', type=float,
-                    help='TEASER rotation_cost_threshold')
-parser.add_argument('--rotation_tim_graph', type=str,
-                    help='TEASER rotation_tim_graph')
-parser.add_argument('--inlier_selection_mode', type=str,
-                    help='TEASER inlier_selection_mode')
-parser.add_argument('--kcore_heuristic_threshold', type=float,
-                    help='TEASER kcore_heuristic_threshold')
-parser.add_argument('--distance_metric', type=str,
-                    help='Distance metric to use to find correspondences')
-
-args = parser.parse_args()
-
-def main():
+def main(args):
     os.makedirs(args.output_dir, exist_ok=True)
     os.makedirs('logs', exist_ok=True)
 
@@ -79,7 +44,10 @@ def main():
     solver_params = teaserpp_python.RobustRegistrationSolver.Params()
     solver_params.cbar2 = args.cbar2
     solver_params.noise_bound = args.noise_bound
-    solver_params.estimate_scaling = args.estimate_scaling
+    if (args.estimate_scaling == "True"):
+        solver_params.estimate_scaling = True
+    else:
+        solver_params.estimate_scaling = False
     if (args.rotation_estimation_algorithm == "GNC_TLS"):
         solver_params.rotation_estimation_algorithm = (
             teaserpp_python.RobustRegistrationSolver.ROTATION_ESTIMATION_ALGORITHM.GNC_TLS
@@ -129,9 +97,6 @@ def main():
                                             remove_infinite_points=True)
 
         target_pcd_filename = row['target']
-        target_pcd_file = os.path.join(args.input_pcd_dir, target_pcd_filename)
-        target_pcd = o3d.io.read_point_cloud(target_pcd_file, remove_nan_points=True, 
-                                            remove_infinite_points=True)
 
         source_transform = np.eye(4)
         source_transform[0][0] = row['t1']
@@ -161,13 +126,11 @@ def main():
         target_xyz = target_npz['xyz_down']
         source_xyz = source_npz['xyz_down']
 
-        corrs_T, corrs_S = helpers.find_correspondences(
-            target_features, source_features, distance_metric=args.distance_metric, mutual_filter=True)
+        corrs_S, corrs_T = helpers.find_correspondences(source_features, target_features)
 
+        S_corr = source_xyz.transpose()[:, corrs_S]
+        T_corr = target_xyz.transpose()[:, corrs_T]
 
-        T_corr = target_xyz[corrs_T, :]
-        S_corr = source_xyz[corrs_S, :]
-    
         logging.debug("Solving " + str(problem_id))
         logging.debug("Target features file: " + os.path.splitext(target_pcd_filename)[0] + '.csv')
         logging.debug("Source features file: " + str(problem_id) + '.csv')
@@ -181,7 +144,8 @@ def main():
             logging.debug("Solving with TEASER")
             teaserpp_solver = teaserpp_python.RobustRegistrationSolver(solver_params)
 
-            teaserpp_solver.solve(S_corr.transpose(), T_corr.transpose())
+            #teaserpp_solver = helpers.get_teaser_solver(0.1)
+            teaserpp_solver.solve(S_corr,T_corr)
             solution = teaserpp_solver.getSolution()
 
             registration_solution = np.eye(4)       
@@ -205,4 +169,41 @@ def main():
             csv_writer.writerow(results)
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Compute benchmark problems')
+    parser.add_argument('--gpu', type=int, default=3,
+                        help='GPU to use (default: 0)')
+    # Input/checkpoint/output paths
+    parser.add_argument('--input_txt', type=str,
+                        help='Path to the problem .txt')
+    parser.add_argument('--input_pcd_dir', type=str,
+                        help='Directory which contains the pcd files')
+    parser.add_argument('--input_features_dir', type=str,
+                        help='Directory which contains the features')
+    parser.add_argument('--output_dir', type=str,
+                        help='Directory to save the results to')
+    # TEASER parameters
+    parser.add_argument('--cbar2', type=float,
+                        help='TEASER cbar2')
+    parser.add_argument('--noise_bound', type=float,
+                        help='TEASER noise_bound')
+    parser.add_argument('--estimate_scaling', type=str,
+                        help='TEASER estimate_scaling')
+    parser.add_argument('--rotation_estimation_algorithm', type=str,
+                        help='TEASER rotation_estimation_algorithm')
+    parser.add_argument('--rotation_gnc_factor', type=float,
+                        help='TEASER rotation_gnc_factor')
+    parser.add_argument('--rotation_max_iterations', type=int,
+                        help='TEASER rotation_max_iterations')
+    parser.add_argument('--rotation_cost_threshold', type=float,
+                        help='TEASER rotation_cost_threshold')
+    parser.add_argument('--rotation_tim_graph', type=str,
+                        help='TEASER rotation_tim_graph')
+    parser.add_argument('--inlier_selection_mode', type=str,
+                        help='TEASER inlier_selection_mode')
+    parser.add_argument('--kcore_heuristic_threshold', type=float,
+                        help='TEASER kcore_heuristic_threshold')
+    parser.add_argument('--distance_metric', type=str,
+                        help='Distance metric to use to find correspondences')
+    args = parser.parse_args()
+
+    main(args)
