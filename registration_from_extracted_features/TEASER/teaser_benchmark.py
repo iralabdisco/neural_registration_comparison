@@ -191,9 +191,8 @@ def main():
             logging.debug("Not solving due to insufficient corrispondences")
             registration_solution = np.eye(4)
 
-        registered_source_pcd = copy.deepcopy(source_pcd)
-        registered_source_pcd.transform(registration_solution)
-        final_error = metric.calculate_error(source_pcd, registered_source_pcd)
+        moved_source_pcd.transform(registration_solution)
+        final_error = metric.calculate_error(source_pcd, moved_source_pcd)
 
         logging.info("Solved problems: " + str(index + 1) + "/" + str(n_problems))
 

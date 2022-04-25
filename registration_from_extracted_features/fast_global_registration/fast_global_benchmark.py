@@ -130,9 +130,8 @@ def main():
 
         registration_solution = result_fast.transformation        
 
-        registered_source_pcd = copy.deepcopy(source_pcd)
-        registered_source_pcd.transform(registration_solution)
-        final_error = metric.calculate_error(source_pcd, registered_source_pcd)
+        moved_source_pcd.transform(registration_solution)
+        final_error = metric.calculate_error(source_pcd, moved_source_pcd)
 
         # write results to file
         str_solution = ' '.join(map(str, registration_solution.ravel()))
