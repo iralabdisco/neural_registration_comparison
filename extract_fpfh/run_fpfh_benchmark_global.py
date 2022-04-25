@@ -1,11 +1,11 @@
-import os
+import os, shutil
 from multiprocessing import Pool
 
 PY3="python3"
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark"
-RESULTS_DIR="/neural_comparison/experiments/FPFH/features/"
+RESULTS_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2/"
 
-VOXEL_SIZE = 0.1
+VOXEL_SIZE = 0.2
 
 base_command = ( f'{PY3}' + ' fpfh_benchmark.py' +
                  f' --voxel_size={VOXEL_SIZE}')
@@ -66,6 +66,13 @@ for problem_txt, pcd_dir, feature_dir in zip(problem_txts, pcd_dirs, feature_dir
                     f' --input_pcd_dir={BENCHMARK_DIR}/{pcd_dir}' +
                     f' --output_dir={RESULTS_DIR}/{feature_dir}')
     commands.append(full_command)
+
+shutil.rmtree(RESULTS_DIR, ignore_errors=True)
+os.makedirs(RESULTS_DIR)
+txt_commands = os.path.join(RESULTS_DIR, "readme.txt")
+with open(txt_commands, 'w') as f:
+    for item in commands:
+        f.write("%s\n" % item)
 
 pool = Pool(1)
 pool.map(os.system, commands)
