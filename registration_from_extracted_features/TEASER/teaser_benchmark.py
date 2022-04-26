@@ -9,12 +9,10 @@ import numpy as np
 import open3d as o3d
 import pandas as pd
 import teaserpp_python
-from sklearn.neighbors import KDTree
 from tqdm import tqdm
 
 import helpers
 import metric
-
 
 def main(args):
     os.makedirs(args.output_dir, exist_ok=True)
@@ -118,7 +116,7 @@ def main(args):
         moved_source_pcd = copy.deepcopy(source_pcd)
         moved_source_pcd.transform(source_transform)
         initial_error = metric.calculate_error(source_pcd, moved_source_pcd)
-        
+
         # find correspondences between target and source features
         target_npz = np.load(os.path.join(args.input_features_dir, os.path.splitext(target_pcd_filename)[0]) + '.npz')
         source_npz = np.load(os.path.join(args.input_features_dir, str(problem_id)) + '.npz')
@@ -131,8 +129,8 @@ def main(args):
 
         corrs_S, corrs_T = helpers.find_correspondences(source_features, target_features)
 
-        S_corr = source_xyz.transpose()[:, corrs_S]
-        T_corr = target_xyz.transpose()[:, corrs_T]
+        S_corr = source_xyz[:, corrs_S]
+        T_corr = target_xyz[:, corrs_T]
 
         logging.debug("Solving " + str(problem_id))
         logging.debug("Target features file: " + os.path.splitext(target_pcd_filename)[0] + '.csv')
@@ -142,16 +140,14 @@ def main(args):
         logging.debug("Target corres: " + str(len(T_corr.transpose())))
         logging.debug("Source corres: " + str(len(S_corr.transpose())))
 
-        if (len(T_corr.transpose()) > 1):
+        if (len(S_corr.transpose()) > 1):
             # solve with TEASER++
             logging.debug("Solving with TEASER")
-            #teaserpp_solver = teaserpp_python.RobustRegistrationSolver(solver_params)
-
-            teaserpp_solver = helpers.get_teaser_solver(0.1)
+            teaserpp_solver = teaserpp_python.RobustRegistrationSolver(solver_params)
             teaserpp_solver.solve(S_corr,T_corr)
             solution = teaserpp_solver.getSolution()
 
-            registration_solution = np.eye(4)       
+            registration_solution = np.eye(4)
             registration_solution[0:3, 0:3] = solution.rotation
             registration_solution[:3, 3] = solution.translation
         else:

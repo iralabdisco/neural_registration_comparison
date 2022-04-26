@@ -1,20 +1,20 @@
-import glob, sys, os
+import os
 from multiprocessing import Pool
 
 PY3="python3"
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
-FEATURES_DIR="/neural_comparison/experiments/FPFH/features/"
-RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/teaser/"
+FEATURES_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2/"
+RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/teaser_0.2_custom_param"
 
 DISTANCE_METRIC="euclidean" #for valid metrics see https://github.com/scikit-learn/scikit-learn/issues/4520#issuecomment-89837739
 
 CBAR2=1
-NOISE_BOUND=0.1 #voxel size
+NOISE_BOUND=0.2 #voxel size
 ESTIMATE_SCALING= "False"
 ROTATION_ESTIMATION_ALGORITHM='GNC_TLS'
 ROTATION_GNC_FACTOR=1.4
 ROTATION_MAX_ITERATIONS=100
-ROTATION_COST_THRESHOLD=1e-12
+ROTATION_COST_THRESHOLD=1e-6
 ROTATION_TIM_GRAPH='CHAIN'
 INLIER_SELECTION_MODE='PMC_EXACT'
 KCORE_HEURISTIC_THRESHOLD=0.5
