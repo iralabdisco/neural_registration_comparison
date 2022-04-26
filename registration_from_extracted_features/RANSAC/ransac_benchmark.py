@@ -129,18 +129,20 @@ def main():
         corres_list = np.array([corrs_S, corrs_T], dtype="int32").transpose()
         corres = o3d.utility.Vector2iVector(corres_list)
         
-        source_xyz = o3d.utility.Vector3dVector(source_xyz)
+        source_xyz = o3d.utility.Vector3dVector(source_xyz.T)
         source_xyz = o3d.geometry.PointCloud(source_xyz)
-        target_xyz = o3d.utility.Vector3dVector(target_xyz)
+        target_xyz = o3d.utility.Vector3dVector(target_xyz.T)
         target_xyz = o3d.geometry.PointCloud(target_xyz)
 
-        result_fast = o3d.pipelines.registration.registration_ransac_based_on_correspondence(
-            source_xyz, target_xyz, corres, args.max_correspondence_distance,
-            estimation_method=estimation_method,
-            ransac_n = args.ransac_n,
-            checkers=checkers, 
-            criteria=ransac_convergence_criteria)
+        distance_threshold = 1.5*0.2
 
+        result_fast = o3d.pipelines.registration.registration_ransac_based_on_correspondence(
+            source_xyz, target_xyz, corres, distance_threshold,
+            o3d.pipelines.registration.TransformationEstimationPointToPoint(False), 4, [
+            o3d.pipelines.registration.CorrespondenceCheckerBasedOnEdgeLength(0.9),
+            o3d.pipelines.registration.CorrespondenceCheckerBasedOnDistance(
+                distance_threshold)], o3d.pipelines.registration.RANSACConvergenceCriteria(4000000, 500))
+        
         registration_solution = result_fast.transformation        
 
         moved_source_pcd.transform(registration_solution)

@@ -4,9 +4,9 @@ from multiprocessing import Pool
 
 def main():
     PY3="python3"
-    BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
-    FEATURES_DIR="/neural_comparison/experiments/FCGF/features/"
-    RESULTS_DIR="/root/neural_registration_comparison/results/FCGF/ransac/"
+    BENCHMARK_DIR="/point_clouds_registration_benchmark/"
+    FEATURES_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2/"
+    RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/ransac/"
 
     DISTANCE_METRIC="euclidean" #for valid metrics see https://github.com/scikit-learn/scikit-learn/issues/4520#issuecomment-89837739
 
