@@ -7,7 +7,7 @@ RESULTS_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2/"
 
 VOXEL_SIZE = 0.2
 
-base_command = ( f'{PY3}' + ' fpfh_benchmark.py' +
+base_command = ( f'{PY3}' + ' fpfh_benchmark2.py' +
                  f' --voxel_size={VOXEL_SIZE}')
 
 problem_txts = ['kaist/urban05_global.txt',

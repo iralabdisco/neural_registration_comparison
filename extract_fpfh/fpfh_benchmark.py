@@ -8,6 +8,9 @@ import open3d as o3d
 
 import benchmark_helper
 
+def pcd2xyz(pcd):
+    return np.asarray(pcd.points).T
+
 def extract_features(pcd, voxel_size):
     pcd_down = pcd.voxel_down_sample(voxel_size)
 
@@ -19,7 +22,7 @@ def extract_features(pcd, voxel_size):
     pcd_fpfh = o3d.pipelines.registration.compute_fpfh_feature(
         pcd_down,
         o3d.geometry.KDTreeSearchParamHybrid(radius=radius_feature, max_nn=100))
-    return pcd_down, pcd_fpfh
+    return pcd_down, np.array(pcd_fpfh.data).T
 
 def main():
     parser = argparse.ArgumentParser(description='Point Cloud Registration')
@@ -43,7 +46,6 @@ def main():
     df = df.reset_index()
 
     print("Solving: " + args.input_txt)
-    num_processed = 0
     ## Solve for each problem
     for _, row in tqdm(df.iterrows(), total=df.shape[0]):
         problem_id, source_pcd, target_pcd, source_transform, target_pcd_filename = \
@@ -52,18 +54,20 @@ def main():
         ## Extract features from source
         source_features_npz = os.path.join(args.output_dir, '{}'.format(problem_id))
         source_pcd.transform(source_transform)
-        xyz_down, features = extract_features(source_pcd, args.voxel_size)
-
+        pcd_down, features = extract_features(source_pcd, args.voxel_size)
+        xyz_down = pcd2xyz(pcd_down)
+    
         # Save out the output
-        np.savez_compressed(source_features_npz, xyz_down=np.asarray(xyz_down.points), features=features.data.transpose())  
+        np.savez_compressed(source_features_npz, xyz_down=xyz_down, features=features)  
 
         ## Extract features from target
         target_features_npz = os.path.join(args.output_dir, os.path.splitext(target_pcd_filename)[0])
         if not(os.path.isfile(target_features_npz + '.npz')):     
-            xyz_down, features = extract_features(target_pcd, args.voxel_size)
+            pcd_down, features = extract_features(target_pcd, args.voxel_size)
+            xyz_down = pcd2xyz(pcd_down)
 
         # Save out the output
-        np.savez_compressed(target_features_npz, xyz_down=np.asarray(xyz_down.points), features=features.data.transpose())  
+        np.savez_compressed(target_features_npz, xyz_down=xyz_down, features=features)  
                 
 if __name__ == '__main__':
     main()
