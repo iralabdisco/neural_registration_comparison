@@ -1,10 +1,9 @@
-import glob, sys, os
-import signal
+import os
 from multiprocessing import Pool
 
 def main():
     PY3="python3"
-    BENCHMARK_DIR="/point_clouds_registration_benchmark/"
+    BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
     FEATURES_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2/"
     RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/ransac/"
 
