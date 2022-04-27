@@ -3,34 +3,21 @@ import shutil
 from multiprocessing import Pool
 
 PY3="python3"
-N_THREADS = 4
+N_THREADS = 1
+
+ALGORITHM = "RANSAC"
+CONFIG = "RANSAC_config.json"
+DISTANCE = "euclidean"
+
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
 FEATURES_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2_compressed/"
-RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/fgr_compressed/"
+RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/test_1_ransac/"
 
-DISTANCE_METRIC="euclidean" #for valid metrics see https://github.com/scikit-learn/scikit-learn/issues/4520#issuecomment-89837739
 
-VOXEL_SIZE = 0.2
-
-DECREASE_MU = "True"
-DIVISION_FACTOR = 1.4
-ITERATION_NUMBER = 150
-MAXIMUM_CORRESPONDENCE_DISTANCE = VOXEL_SIZE * 0.5
-MAXIMUM_TUPLE_COUNT = 1000
-TUPLE_SCALE = 0.95
-TUPLE_TEST = "True"
-USE_ABSOLUTE_SCALE = "False"
-
-fgr_command = ( f'{PY3}' + ' fast_global_benchmark.py'
-                f' --distance_metric={DISTANCE_METRIC}' +
-                f' --decrease_mu={DECREASE_MU}' +
-                f' --division_factor={DIVISION_FACTOR}' +
-                f' --iteration_number={ITERATION_NUMBER}' +
-                f' --maximum_correspondence_distance={MAXIMUM_CORRESPONDENCE_DISTANCE}' +
-                f' --maximum_tuple_count={MAXIMUM_TUPLE_COUNT}' +
-                f' --tuple_scale={TUPLE_SCALE}' +
-                f' --tuple_test={TUPLE_TEST}' +
-                f' --use_absolute_scale={USE_ABSOLUTE_SCALE}')
+base_command = ( f'{PY3}' + ' registration_from_features.py'
+                f' {ALGORITHM}' +
+                f' {CONFIG}' +
+                f' {DISTANCE}')
 
 problem_txts = ['kaist/urban05_global.txt',
                 'eth/apartment_global.txt', 
@@ -83,7 +70,7 @@ features_dirs = ['kaist/urban05/',
 commands = []
 
 for problem_txt, pcd_dir, features_dir in zip(problem_txts, pcd_dirs, features_dirs):
-    full_command = (fgr_command + 
+    full_command = (base_command + 
                     f' --input_txt={BENCHMARK_DIR}/{problem_txt}' +
                     f' --input_pcd_dir={BENCHMARK_DIR}/{pcd_dir}' +
                     f' --input_features_dir={FEATURES_DIR}/{features_dir}' +
@@ -92,5 +79,6 @@ for problem_txt, pcd_dir, features_dir in zip(problem_txts, pcd_dirs, features_d
 
 shutil.rmtree(RESULTS_DIR, ignore_errors=True)
 os.makedirs(RESULTS_DIR)
+
 pool = Pool(N_THREADS)
 pool.map(os.system, commands)
