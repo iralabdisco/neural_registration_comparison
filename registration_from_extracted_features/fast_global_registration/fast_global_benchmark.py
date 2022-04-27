@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from sklearn.neighbors import KDTree
 import open3d as o3d
 
 import argparse
@@ -12,7 +11,6 @@ import helpers
 
 def main(args):
     os.makedirs(args.output_dir, exist_ok=True)
-
     df = pd.read_csv(args.input_txt, sep=' ', comment='#')
     df = df.reset_index()
 
@@ -62,9 +60,6 @@ def main(args):
                                             remove_infinite_points=True)
 
         target_pcd_filename = row['target']
-        target_pcd_file = os.path.join(args.input_pcd_dir, target_pcd_filename)
-        target_pcd = o3d.io.read_point_cloud(target_pcd_file, remove_nan_points=True, 
-                                            remove_infinite_points=True)
 
         source_transform = np.eye(4)
         source_transform[0][0] = row['t1']
@@ -94,22 +89,32 @@ def main(args):
         target_xyz = target_npz['xyz_down']
         source_xyz = source_npz['xyz_down']
 
+        source_xyz = o3d.utility.Vector3dVector(source_xyz.T)
+        source_xyz = o3d.geometry.PointCloud(source_xyz)
+        target_xyz = o3d.utility.Vector3dVector(target_xyz.T)
+        target_xyz = o3d.geometry.PointCloud(target_xyz)
+
         corrs_T, corrs_S = helpers.find_correspondences(
             target_features, source_features, distance_metric=args.distance_metric, mutual_filter=True)
 
-        # solve with FGR
-        corres_list = np.array([corrs_S, corrs_T], dtype="int32").transpose()
-        corres = o3d.utility.Vector2iVector(corres_list)
-        
-        source_xyz = o3d.utility.Vector3dVector(source_xyz)
-        source_xyz = o3d.geometry.PointCloud(source_xyz)
-        target_xyz = o3d.utility.Vector3dVector(target_xyz)
-        target_xyz = o3d.geometry.PointCloud(target_xyz)
+        ## WORKAROUND PER open3d 0.15.2: https://github.com/isl-org/Open3D/issues/4790
+        if (len(source_xyz.points) > len(target_xyz.points)):
 
-        result_fast = o3d.pipelines.registration.registration_fgr_based_on_correspondence(
-            source_xyz, target_xyz, corres, fgr_options)
+            corres_list = np.array([corrs_S, corrs_T], dtype="int32").transpose()
+            corres = o3d.utility.Vector2iVector(corres_list)
+            result_fast = o3d.pipelines.registration.registration_fgr_based_on_correspondence(
+                source_xyz, target_xyz, corres, fgr_options)
+            registration_solution = result_fast.transformation
+        else:
+            # SWAP TARGET E SOURCE
+            corres_list = np.array([corrs_T, corrs_S], dtype="int32").transpose()
+            corres = o3d.utility.Vector2iVector(corres_list)
+            result_fast = o3d.pipelines.registration.registration_fgr_based_on_correspondence(
+                target_xyz, source_xyz, corres, fgr_options)
+            registration_solution = result_fast.transformation
 
-        registration_solution = result_fast.transformation        
+            #INVERTI LA TRASFORMAZIONE VISTO CHE HAI SWAPPATO TARGET E SOURCE
+            registration_solution =  np.linalg.inv(registration_solution)
 
         moved_source_pcd.transform(registration_solution)
         final_error = metric.calculate_error(source_pcd, moved_source_pcd)
