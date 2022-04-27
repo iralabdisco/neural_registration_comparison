@@ -15,6 +15,7 @@ import correspondence_helpers
 import metric
 import RANSAC_benchmark
 import FastGlobal_benchmark
+import TEASER_benchmark
 
 
 def main(args):
@@ -38,6 +39,7 @@ def main(args):
     # load config
     config_file= open(args.config_path)
     config = json.load(config_file)
+    # TODO save config.json in output_dir
 
     # start solving all problems in .txt
     print(problem_name)
@@ -73,7 +75,7 @@ def main(args):
         elif args.algorithm == "FastGlobal":
             registration_solution = FastGlobal_benchmark.run_FastGlobal_registration(config, source_xyz, target_xyz, corrs_S, corrs_T)
         elif args.algorithm == "TEASER":
-            pass
+            registration_solution = TEASER_benchmark.run_TEASER_registration(config, source_xyz, target_xyz, corrs_S, corrs_T)
         
         # calculate final error
         moved_source_pcd.transform(registration_solution)

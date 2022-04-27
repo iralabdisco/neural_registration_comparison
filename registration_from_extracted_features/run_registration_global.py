@@ -5,13 +5,13 @@ from multiprocessing import Pool
 PY3="python3"
 N_THREADS = 1
 
-ALGORITHM = "RANSAC"
-CONFIG = "RANSAC_config.json"
+ALGORITHM = "TEASER"
+CONFIG = "TEASER_config.json"
 DISTANCE = "euclidean"
 
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
 FEATURES_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2_compressed/"
-RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/test_1_ransac/"
+RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/test_1_teaser/"
 
 
 base_command = ( f'{PY3}' + ' registration_from_features.py'

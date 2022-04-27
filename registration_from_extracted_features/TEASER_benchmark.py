@@ -31,3 +31,5 @@ def run_TEASER_registration(config, source, target, corrs_S, corrs_T):
         registration_solution[:3, 3] = solution.translation
     else:
         registration_solution = np.eye(4)
+
+    return registration_solution
