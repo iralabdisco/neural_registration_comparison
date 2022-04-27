@@ -5,7 +5,8 @@ def run_RANSAC_registration(config, source, target, corrs_S, corrs_T):
 
     corres_list = np.array([corrs_S, corrs_T], dtype="int32").transpose()
     corres = o3d.utility.Vector2iVector(corres_list)
-        
+    
+    # convert from numpy to PointCloud
     source = o3d.utility.Vector3dVector(source.T)
     source = o3d.geometry.PointCloud(source)
     target = o3d.utility.Vector3dVector(target.T)

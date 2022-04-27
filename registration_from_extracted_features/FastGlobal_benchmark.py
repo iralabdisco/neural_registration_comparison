@@ -12,6 +12,12 @@ def run_FastGlobal_registration(config, source, target, corrs_S, corrs_T):
                 tuple_test = config["tuple_test"], 
                 use_absolute_scale = config["use_absolute_scale"])
 
+    # convert from numpy to PointCloud
+    source = o3d.utility.Vector3dVector(source.T)
+    source = o3d.geometry.PointCloud(source)
+    target = o3d.utility.Vector3dVector(target.T)
+    target = o3d.geometry.PointCloud(target)
+
     ## WORKAROUND PER open3d 0.15.2: https://github.com/isl-org/Open3D/issues/4790
     if (len(source.points) > len(target.points)):
 
