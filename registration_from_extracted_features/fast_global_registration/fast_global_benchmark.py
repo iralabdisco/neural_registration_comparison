@@ -10,43 +10,8 @@ from tqdm import tqdm
 import metric
 import helpers
 
-parser = argparse.ArgumentParser(description='Compute benchmark problems')
-# Input/checkpoint/output paths
-parser.add_argument('--input_txt', type=str,
-                    help='Path to the problem .txt')
-parser.add_argument('--input_pcd_dir', type=str,
-                    help='Directory which contains the pcd files')
-parser.add_argument('--input_features_dir', type=str,
-                    help='Directory which contains the features')
-parser.add_argument('--output_dir', type=str,
-                    help='Directory to save the results to')
-# Feature matching parameters
-parser.add_argument('--distance_metric', type=str,
-                    help='Distance metric to use to find correspondences')
-# FGR parameters
-parser.add_argument('--decrease_mu', type=bool,
-                    help='Set to True to decrease scale mu by division_factor for graduated non-convexity.')
-parser.add_argument('--division_factor', type=float,
-                    help='Division factor used for graduated non-convexity')
-parser.add_argument('--iteration_number', type=int,
-                    help='Maximum number of iterations')
-parser.add_argument('--maximum_correspondence_distance', type=float,
-                    help='Maximum correspondence distance')
-parser.add_argument('--maximum_tuple_count', type=float,
-                    help='Maximum tuple numbers')
-parser.add_argument('--tuple_scale', type=float,
-                    help='Similarity measure used for tuples of feature points')
-parser.add_argument('--tuple_test', type=bool,
-                    help='Set to true to perform geometric compatibility tests on initial set of correspondences')
-parser.add_argument('--use_absolute_scale', type=bool,
-                    help='Measure distance in absolute scale (1) or in scale relative to the diameter of the model (0).')
-parser.add_argument('--seed', type=int,
-                    help='Random seed.')
-
-args = parser.parse_args()
-
-def main():
-    os.makedirs(args.output_dir, exist_ok=True) 
+def main(args):
+    os.makedirs(args.output_dir, exist_ok=True)
 
     df = pd.read_csv(args.input_txt, sep=' ', comment='#')
     df = df.reset_index()
@@ -63,16 +28,32 @@ def main():
         csv_writer = csv.writer(f, delimiter=';')
         csv_writer.writerow(header)
 
+    if (args.decrease_mu == "True"):
+        decrease_flag = True
+    else:
+        decrease_flag = False
+    
+    if (args.tuple_test == "True"):
+        tuple_flag = True
+    else:
+        tuple_flag = False
+
+    if (args.use_absolute_scale == "True"):
+        absolute_flag = True
+    else:
+        absolute_flag = False
+
     fgr_options = o3d.pipelines.registration.FastGlobalRegistrationOption(
-                    decrease_mu = args.decrease_mu,
+                    decrease_mu = decrease_flag,
                     division_factor = args.division_factor,
                     iteration_number = args.iteration_number, 
                     maximum_correspondence_distance = args.maximum_correspondence_distance,
                     tuple_scale = args.tuple_scale, 
-                    tuple_test = args.tuple_test, 
-                    use_absolute_scale = args.use_absolute_scale)
+                    tuple_test = tuple_flag, 
+                    use_absolute_scale = absolute_flag)
+                
     print(problem_name)
-    for index, row in tqdm(df.iterrows(), total=df.shape[0]):    
+    for _, row in tqdm(df.iterrows(), total=df.shape[0]):    
         problem_id = row['id']
 
         source_pcd_filename = row['source']
@@ -142,4 +123,39 @@ def main():
             csv_writer.writerow(results)
 
 if __name__ == '__main__':
-    main()
+
+    parser = argparse.ArgumentParser(description='Compute benchmark problems')
+    # Input/checkpoint/output paths
+    parser.add_argument('--input_txt', type=str,
+                        help='Path to the problem .txt')
+    parser.add_argument('--input_pcd_dir', type=str,
+                        help='Directory which contains the pcd files')
+    parser.add_argument('--input_features_dir', type=str,
+                        help='Directory which contains the features')
+    parser.add_argument('--output_dir', type=str,
+                        help='Directory to save the results to')
+    # Feature matching parameters
+    parser.add_argument('--distance_metric', type=str,
+                        help='Distance metric to use to find correspondences')
+    # FGR parameters
+    parser.add_argument('--decrease_mu', type=str,
+                        help='Set to True to decrease scale mu by division_factor for graduated non-convexity.')
+    parser.add_argument('--division_factor', type=float,
+                        help='Division factor used for graduated non-convexity')
+    parser.add_argument('--iteration_number', type=int,
+                        help='Maximum number of iterations')
+    parser.add_argument('--maximum_correspondence_distance', type=float,
+                        help='Maximum correspondence distance')
+    parser.add_argument('--maximum_tuple_count', type=float,
+                        help='Maximum tuple numbers')
+    parser.add_argument('--tuple_scale', type=float,
+                        help='Similarity measure used for tuples of feature points')
+    parser.add_argument('--tuple_test', type=str,
+                        help='Set to true to perform geometric compatibility tests on initial set of correspondences')
+    parser.add_argument('--use_absolute_scale', type=str,
+                        help='Measure distance in absolute scale (1) or in scale relative to the diameter of the model (0).')
+    parser.add_argument('--seed', type=int,
+                        help='Random seed.')
+    args = parser.parse_args()
+
+    main(args)

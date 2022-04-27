@@ -10,14 +10,14 @@ DISTANCE_METRIC="euclidean" #for valid metrics see https://github.com/scikit-lea
 
 VOXEL_SIZE = 0.2
 
-DECREASE_MU = True
+DECREASE_MU = "True"
 DIVISION_FACTOR = 1.4
 ITERATION_NUMBER = 150
 MAXIMUM_CORRESPONDENCE_DISTANCE = VOXEL_SIZE * 0.5
 MAXIMUM_TUPLE_COUNT = 1000
 TUPLE_SCALE = 0.95
-TUPLE_TEST = True
-USE_ABSOLUTE_SCALE = False
+TUPLE_TEST = "True"
+USE_ABSOLUTE_SCALE = "False"
 
 fgr_command = ( f'{PY3}' + ' fast_global_benchmark.py'
                 f' --distance_metric={DISTANCE_METRIC}' +
@@ -88,5 +88,7 @@ for problem_txt, pcd_dir, features_dir in zip(problem_txts, pcd_dirs, features_d
                     f' --output_dir={RESULTS_DIR}')
     commands.append(full_command)
 
+shutil.rmtree(RESULTS_DIR, ignore_errors=True)
+os.makedirs(RESULTS_DIR)
 pool = Pool(1)
 pool.map(os.system, commands)
