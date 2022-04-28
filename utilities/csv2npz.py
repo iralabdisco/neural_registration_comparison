@@ -27,7 +27,7 @@ def main(args):
                     df = pd.read_csv(csv_file, comment='#')
                     features = df.loc[:, df.columns.difference(['x','y','z'])].to_numpy()        
                     xyz_down = df[['x', 'y', 'z']].to_numpy()
-                    np.savez_compressed(npz_file, xyz_down=xyz_down.T, features=features)
+                    np.savez_compressed(npz_file, xyz_down=xyz_down, features=features)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert csv to npz')

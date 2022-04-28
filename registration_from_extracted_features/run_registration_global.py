@@ -3,21 +3,23 @@ import shutil
 from multiprocessing import Pool
 
 PY3="python3"
-N_THREADS = 1
+N_THREADS = 6
 
-ALGORITHM = "TEASER"
-CONFIG = "TEASER_config.json"
+ALGORITHM = "FastGlobal"
+CONFIG = "FastGlobal_config.json"
 DISTANCE = "euclidean"
+MUTUAL_FILTER = "False"
 
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
-FEATURES_DIR="/neural_comparison/experiments/3DFeatNet/test/"
-RESULTS_DIR="/root/neural_registration_comparison/results/3DFeatNet/TEASER/"
+FEATURES_DIR="/neural_comparison/experiments/3DFeatNet/feature_extraction_voxelgrid_0.1_npz/"
+RESULTS_DIR="/root/neural_registration_comparison/results/3DFeatNet/FastGlobal/"
 
 
 base_command = ( f'{PY3}' + ' registration_from_features.py'
                 f' {ALGORITHM}' +
                 f' {CONFIG}' +
-                f' {DISTANCE}')
+                f' {DISTANCE}' +
+                f' {MUTUAL_FILTER}')
 
 problem_txts = ['kaist/urban05_global.txt',
                 'eth/apartment_global.txt', 

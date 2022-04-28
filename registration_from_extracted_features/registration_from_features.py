@@ -2,6 +2,7 @@ import argparse
 import copy
 import csv
 import json
+import logging
 import os
 import sys
 
@@ -40,6 +41,13 @@ def main(args):
     config_file= open(args.config_path)
     config = json.load(config_file)
 
+    # create logger
+    os.makedirs('logs', exist_ok=True)
+    logname = 'logs/' + problem_name + '.log'
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+    logging.basicConfig(filename=logname, level=logging.DEBUG, filemode='w')
+
     # start solving all problems in .txt
     print(problem_name)
     for _, row in tqdm(df.iterrows(), total=df.shape[0]):
@@ -61,12 +69,22 @@ def main(args):
         source_npz = np.load(os.path.join(args.input_features_dir, str(problem_id)) + '.npz')
         target_features = target_npz['features']
         source_features = source_npz['features']
-        target_xyz = target_npz['xyz_down']
-        source_xyz = source_npz['xyz_down']
+        target_xyz = target_npz['xyz_down'].T
+        source_xyz = source_npz['xyz_down'].T
 
         # find correspondences
+        if (args.mutual_filter == "True"):
+            mutual_flag = True
+        else:
+            mutual_flag = False
+
         corrs_T, corrs_S = correspondence_helpers.find_correspondences(
-            target_features, source_features, distance_metric=args.distance, mutual_filter=True)
+            target_features, source_features, distance_metric=args.distance, mutual_filter=mutual_flag)
+
+        logging.debug("Solving " + str(problem_id))
+        logging.debug("Number of target features: " + str(len(target_features)))
+        logging.debug("Number of source features: " + str(len(source_features)))
+        logging.debug("Number of correspondences: " + str(len(corrs_T)))
         
         # solve registration depending on the chosen algorithm
         if args.algorithm == "RANSAC":
@@ -100,7 +118,9 @@ if __name__ == '__main__':
 
     # Distance metric to find correspondences
     parser.add_argument('distance', choices=['chebyshev', 'euclidean', 'cityblock', 'manhattan', 'infinity', 'minkowski', 'p', 'l2', 'l1'],
-                        help='Registration algorithm')
+                        help='Distance metric to find correspondences')
+    parser.add_argument('mutual_filter', choices=['True', 'False'],
+                        help='Use mutual correspondences')
 
     # I/O files and dirs
     parser.add_argument('--input_txt', type=str,

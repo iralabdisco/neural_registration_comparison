@@ -7,9 +7,9 @@ def run_RANSAC_registration(config, source, target, corrs_S, corrs_T):
     corres = o3d.utility.Vector2iVector(corres_list)
     
     # convert from numpy to PointCloud
-    source = o3d.utility.Vector3dVector(source.T)
+    source = o3d.utility.Vector3dVector(source)
     source = o3d.geometry.PointCloud(source)
-    target = o3d.utility.Vector3dVector(target.T)
+    target = o3d.utility.Vector3dVector(target)
     target = o3d.geometry.PointCloud(target)
 
     max_correspondence_distance = config["max_correspondence_distance"]
