@@ -39,7 +39,6 @@ def main(args):
     # load config
     config_file= open(args.config_path)
     config = json.load(config_file)
-    # TODO save config.json in output_dir
 
     # start solving all problems in .txt
     print(problem_name)

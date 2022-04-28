@@ -5,13 +5,13 @@ from multiprocessing import Pool
 PY3="python3"
 N_THREADS = 1
 
-ALGORITHM = "FastGlobal"
-CONFIG = "FastGlobal_config.json"
+ALGORITHM = "RANSAC"
+CONFIG = "RANSAC_config.json"
 DISTANCE = "euclidean"
 
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
 FEATURES_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2_compressed/"
-RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/test_1_fgr/"
+RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/test_1_ransac/"
 
 
 base_command = ( f'{PY3}' + ' registration_from_features.py'
@@ -77,8 +77,11 @@ for problem_txt, pcd_dir, features_dir in zip(problem_txts, pcd_dirs, features_d
                     f' --output_dir={RESULTS_DIR}')
     commands.append(full_command)
 
+# delete and recreate result directory
 shutil.rmtree(RESULTS_DIR, ignore_errors=True)
 os.makedirs(RESULTS_DIR)
+# save config in result directory
+shutil.copyfile(CONFIG, os.path.join(RESULTS_DIR, CONFIG))
 
 pool = Pool(N_THREADS)
 pool.map(os.system, commands)
