@@ -17,8 +17,8 @@ def run_TEASER_registration(config, source, target, corrs_S, corrs_T):
     solver_params.kcore_heuristic_threshold = config["kcore_heuristic_threshold"]
 
     # Get correspondences
-    S_corr = source.T[:, corrs_S]
-    T_corr = target.T[:, corrs_T]
+    S_corr = source[:, corrs_S]
+    T_corr = target[:, corrs_T]
 
     if (len(S_corr.transpose()) > 1):
         # solve with TEASER++
