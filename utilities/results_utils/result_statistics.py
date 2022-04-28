@@ -18,16 +18,17 @@ def main(args):
 
     #calculate stats for each sequence
     for f in os.listdir(args.input_dir):
-        df = pd.read_csv(os.path.join(args.input_dir, f),
-                        sep=';',
-                        comment='#')
-        total_df = pd.concat([total_df, df])
-        sequence_name = os.path.splitext(os.path.basename(f))[0]
-        sequence_name=sequence_name.split("_")
-        sequence_name="_".join(sequence_name[:-2])
-        stats = list(compute_stats_from_df(df))
-        stats.insert(0, sequence_name)
-        stats_data.append(stats)    
+        if f.endswith(".txt"):
+            df = pd.read_csv(os.path.join(args.input_dir, f),
+                            sep=';',
+                            comment='#')
+            total_df = pd.concat([total_df, df])
+            sequence_name = os.path.splitext(os.path.basename(f))[0]
+            sequence_name=sequence_name.split("_")
+            sequence_name="_".join(sequence_name[:-2])
+            stats = list(compute_stats_from_df(df))
+            stats.insert(0, sequence_name)
+            stats_data.append(stats)    
 
     #calculate stats for all problems together
     stats = list(compute_stats_from_df(total_df))
