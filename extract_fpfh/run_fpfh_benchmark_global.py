@@ -2,8 +2,9 @@ import os, shutil
 from multiprocessing import Pool
 
 PY3="python3"
+N_THREADS = 4
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark"
-RESULTS_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2/"
+RESULTS_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2_compressed/"
 
 VOXEL_SIZE = 0.2
 
@@ -74,5 +75,5 @@ with open(txt_commands, 'w') as f:
     for item in commands:
         f.write("%s\n" % item)
 
-pool = Pool(1)
+pool = Pool(N_THREADS)
 pool.map(os.system, commands)

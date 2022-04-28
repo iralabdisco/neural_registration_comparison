@@ -1,0 +1,9 @@
+{
+    "decrease_mu": true,
+    "division_factor": 1.4,
+    "iteration_number": 150,
+    "maximum_correspondence_distance": 0.1,
+    "tuple_scale": 0.95,
+    "tuple_test": true,
+    "use_absolute_scale": false
+}

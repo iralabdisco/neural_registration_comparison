@@ -69,7 +69,7 @@ def main(args):
 
         # Save out the output
         source_features_npz = os.path.join(args.output_dir, '{}'.format(problem_id))
-        np.savez(source_features_npz, xyz_down=moved_source_xyz, features=source_fpfh)  
+        np.savez_compressed(source_features_npz, xyz_down=moved_source_xyz, features=source_fpfh)  
 
         ## Extract features from target
         target_features_npz = os.path.join(args.output_dir, os.path.splitext(target_pcd_filename)[0])
@@ -78,7 +78,7 @@ def main(args):
             target_xyz = pcd2xyz(target_down)
 
             # Save out the output
-            np.savez(target_features_npz, xyz_down=target_xyz, features=target_fpfh)  
+            np.savez_compressed(target_features_npz, xyz_down=target_xyz, features=target_fpfh)  
         
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Compute FPFH')
