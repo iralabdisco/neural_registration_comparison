@@ -5,14 +5,21 @@ from multiprocessing import Pool
 PY3="python3"
 N_THREADS = 1
 
+"""
+Nota per i file config.json:
+
+Per RANSAC settare "max_correspondence_distance" a VOXEL_SIZE * 1.5
+Per Fast Global Registration settare "maximum_correspondence_distance" a VOXEL_SIZE*0.5
+Per TEASER settare "noise_bound" a VOXEL_SIZE
+"""
 ALGORITHM = "RANSAC"
 CONFIG = "RANSAC_config.json"
 DISTANCE = "euclidean"
 MUTUAL_FILTER = "True"
 
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
-FEATURES_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2/"
-RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/schifo/"
+FEATURES_DIR="/neural_comparison/experiments/3DFeatNet/feature_extraction_voxelgrid_0.1_npz/"
+RESULTS_DIR="/root/neural_registration_comparison/results/3DFeatNet/RANSAC_mutual_on/"
 
 base_command = ( f'{PY3}' + ' registration_from_features.py'
                 f' {ALGORITHM}' +
