@@ -78,8 +78,8 @@ def main(args):
         else:
             mutual_flag = False
 
-        corrs_T, corrs_S = correspondence_helpers.find_correspondences(
-            target_features, source_features, distance_metric=args.distance, mutual_filter=mutual_flag)
+        corrs_S, corrs_T = correspondence_helpers.find_correspondences(
+            source_features, target_features, distance_metric=args.distance, mutual_filter=mutual_flag)
 
         logging.debug("Solving " + str(problem_id))
         logging.debug("Number of target features: " + str(len(target_features)))
