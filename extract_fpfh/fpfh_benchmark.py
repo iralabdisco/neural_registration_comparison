@@ -8,7 +8,7 @@ import pandas as pd
 from tqdm import tqdm
 
 def pcd2xyz(pcd):
-    return np.asarray(pcd.points).T
+    return np.asarray(pcd.points)
 
 def preprocess_point_cloud(pcd, voxel_size):
     o3d.utility.set_verbosity_level(o3d.utility.Error)

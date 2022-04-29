@@ -3,16 +3,16 @@ import shutil
 from multiprocessing import Pool
 
 PY3="python3"
-N_THREADS = 3
+N_THREADS = 1
 
-ALGORITHM = "TEASER"
-CONFIG = "TEASER_config.json"
+ALGORITHM = "RANSAC"
+CONFIG = "RANSAC_config.json"
 DISTANCE = "euclidean"
-MUTUAL_FILTER = "False"
+MUTUAL_FILTER = "True"
 
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
-FEATURES_DIR="/neural_comparison/experiments/FCGF/features/"
-RESULTS_DIR="/root/neural_registration_comparison/results/FCGF/TEASER/"
+FEATURES_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2/"
+RESULTS_DIR="/root/neural_registration_comparison/results/FPFH/schifo/"
 
 base_command = ( f'{PY3}' + ' registration_from_features.py'
                 f' {ALGORITHM}' +

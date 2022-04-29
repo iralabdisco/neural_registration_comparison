@@ -4,7 +4,7 @@ from multiprocessing import Pool
 PY3="python3"
 N_THREADS = 4
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark"
-RESULTS_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2_compressed/"
+RESULTS_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2_test/"
 
 VOXEL_SIZE = 0.2
 
