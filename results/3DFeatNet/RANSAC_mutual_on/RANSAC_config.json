@@ -1,0 +1,9 @@
+{
+    "max_correspondence_distance":0.15,
+    "estimation_method": "o3d.pipelines.registration.TransformationEstimationPointToPoint(False)",
+    "checkers": ["o3d.pipelines.registration.CorrespondenceCheckerBasedOnEdgeLength(0.9)",
+                    "o3d.pipelines.registration.CorrespondenceCheckerBasedOnDistance(max_correspondence_distance)"],
+    "ransac_n": 4,
+    "confidence": 1,
+    "max_iteration": 4000000
+}

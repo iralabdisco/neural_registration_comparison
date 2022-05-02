@@ -1,9 +1,6 @@
 import numpy as np 
 from sklearn.neighbors import KDTree
 
-def pcd2xyz(pcd):
-    return np.asarray(pcd.points).T
-
 def find_knn_cpu(feat0, feat1, knn=1, distance_metric='euclidean', return_distance=False):
 
   feat1tree = KDTree(feat1, metric=distance_metric)  
