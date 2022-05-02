@@ -12,20 +12,25 @@ Per RANSAC settare "max_correspondence_distance" a VOXEL_SIZE * 1.5
 Per Fast Global Registration settare "maximum_correspondence_distance" a VOXEL_SIZE*0.5
 Per TEASER settare "noise_bound" a VOXEL_SIZE
 """
-ALGORITHM = "RANSAC"
-CONFIG = "RANSAC_config.json"
-DISTANCE = "euclidean"
+ALGORITHM = "TEASER"
+CONFIG = "TEASER_config.json"
+DISTANCE = "l2"
 MUTUAL_FILTER = "True"
+USE_RANDOM_KEYPOINTS = "True"
+N_KEYPOINTS = 5000
 
 BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
-FEATURES_DIR="/neural_comparison/experiments/3DFeatNet/feature_extraction_voxelgrid_0.1_npz/"
-RESULTS_DIR="/root/neural_registration_comparison/results/3DFeatNet/RANSAC_mutual_on/"
+FEATURES_DIR="/neural_comparison/experiments/FCGF/all_kitti/"
+RESULTS_DIR="/root/neural_registration_comparison/results/FCGF/all_kitti/TEASER"
+
 
 base_command = ( f'{PY3}' + ' registration_from_features.py'
                 f' {ALGORITHM}' +
                 f' {CONFIG}' +
                 f' {DISTANCE}' +
-                f' {MUTUAL_FILTER}')
+                f' {MUTUAL_FILTER}' +
+                f' --use_random_keypoints={USE_RANDOM_KEYPOINTS}' +
+                f' --n_keypoints={N_KEYPOINTS}')
 
 problem_txts = ['kaist/urban05_global.txt',
                 'eth/apartment_global.txt', 

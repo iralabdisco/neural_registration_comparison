@@ -72,6 +72,14 @@ def main(args):
         target_xyz = target_npz['xyz_down'].T
         source_xyz = source_npz['xyz_down'].T
 
+        # choose n random points
+        if (args.use_random_keypoints == "True"):
+            xyz_len = source_xyz.shape[1]
+            if xyz_len > args.n_keypoints: 
+                indexes = np.random.choice(xyz_len-1, args.n_keypoints)
+                source_xyz = source_xyz[:, indexes]
+                source_features = source_features[indexes, :]
+        
         # find correspondences
         if (args.mutual_filter == "True"):
             mutual_flag = True
@@ -121,6 +129,12 @@ if __name__ == '__main__':
                         help='Distance metric to find correspondences')
     parser.add_argument('mutual_filter', choices=['True', 'False'],
                         help='Use mutual correspondences')
+
+    # Optional keypoints
+    parser.add_argument('--use_random_keypoints', choices=['True', 'False'],
+                        help='Use random keypoints from source point cloud')
+    parser.add_argument('--n_keypoints', type=int,
+                        help='Number of random keypoints')
 
     # I/O files and dirs
     parser.add_argument('--input_txt', type=str,
