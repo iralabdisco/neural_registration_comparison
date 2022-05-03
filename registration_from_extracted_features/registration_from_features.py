@@ -76,7 +76,7 @@ def main(args):
         if (args.use_random_keypoints == "True"):
             xyz_len = source_xyz.shape[1]
             if xyz_len > args.n_keypoints: 
-                indexes = np.random.choice(xyz_len-1, args.n_keypoints)
+                indexes = np.random.choice(xyz_len, args.n_keypoints, replace=False)
                 source_xyz = source_xyz[:, indexes]
                 source_features = source_features[indexes, :]
         
