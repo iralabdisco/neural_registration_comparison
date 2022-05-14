@@ -5,5 +5,5 @@
                     "o3d.pipelines.registration.CorrespondenceCheckerBasedOnDistance(max_correspondence_distance)"],
     "ransac_n": 4,
     "confidence": 1,
-    "max_iteration": 4000000
+    "max_iteration": 100000
 }
