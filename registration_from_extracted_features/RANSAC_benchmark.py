@@ -17,7 +17,6 @@ def run_RANSAC_registration(config, source, target, corrs_S, corrs_T):
     checkers = []
     for i in config["checkers"]:
         checkers.append(eval(i))
-    
     result = o3d.pipelines.registration.registration_ransac_based_on_correspondence(
             source, target, corres, max_correspondence_distance,
             eval(config["estimation_method"]), config["ransac_n"], checkers, 
