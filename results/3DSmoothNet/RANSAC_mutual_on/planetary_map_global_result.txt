@@ -1,4 +1,4 @@
-# registration_from_features.py RANSAC RANSAC_config.json euclidean True --use_random_keypoints=True --n_keypoints=5000 --input_txt=/i7g4/neural_comparison/point_clouds_registration_benchmark/planetary/planetary_map_global.txt --input_pcd_dir=/i7g4/neural_comparison/point_clouds_registration_benchmark/planetary/p2at_met/ --input_features_dir=/i7g4/neural_comparison/features/3DSmoothNet/planetary/p2at_met/ --output_dir=/root/neural_registration_comparison/results/3DSmoothNet/RANSAC_mutual_on
+# registration_from_features.py RANSAC RANSAC_config.json euclidean True --use_random_keypoints=False --n_keypoints=5000 --input_txt=/i7g4/neural_comparison/point_clouds_registration_benchmark/planetary/planetary_map_global.txt --input_pcd_dir=/i7g4/neural_comparison/point_clouds_registration_benchmark/planetary/p2at_met/ --input_features_dir=/i7g4/neural_comparison/features/3DSmoothNet/planetary/p2at_met/ --output_dir=/root/neural_registration_comparison/results/3DSmoothNet/RANSAC_mutual_on
 id;initial_error;final_error;transformation
 25528382210030;15.683526663035371;15.683526663035371;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0
 25528382210061;9.694920160715437;9.694920160715437;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0
@@ -57,7 +57,7 @@ id;initial_error;final_error;transformation
 25528382211704;21.73324130112813;21.73324130112813;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0
 25528382211735;15.219178573330824;15.219178573330824;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0
 25528382211766;8.120431397107039;8.120431397107039;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0
-25528382211797;10.704272615652533;10.704272615652533;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0
+25528382211797;10.704272615652533;92.20854504941215;-0.00018418187232684574  0.9999532937040849  -0.009663151007269848  -7.538896528308825  0.9879028873078515  0.0016804459079806924  0.15506470052968357  -103.25370142319633  0.1550736964344631  -0.009517694673698304  -0.987857055530936  6.63977923579166  0.0  0.0  0.0  1.0
 25528382211828;14.19066388465987;14.19066388465987;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0
 25528382211859;15.636492466966827;15.636492466966827;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0
 25528382211890;12.685237572837845;12.685237572837845;1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0  0.0  0.0  0.0  0.0  1.0
