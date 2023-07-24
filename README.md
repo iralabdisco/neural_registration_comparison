@@ -6,4 +6,4 @@ This repository collects the results and utilities related to our paper
 This work compares different neural network-based algorithms for point clouds registration on our [Point Clouds Registraion Benchmark](https://github.com/iralabdisco/point_clouds_registration_benchmark).
 The results of the registration problems can be found in the ```results``` folder, divided by algorithm used. In each leaf folder, a file with the ```_config.json``` suffix can be found, stating the parameters used for the registration.
 
-The full instructions to reproduce the experiments can be found in the [wiki] of this repository.
+The full instructions to reproduce the experiments can be found in the [wiki](https://github.com/iralabdisco/neural_registration_comparison/wiki) of this repository.
