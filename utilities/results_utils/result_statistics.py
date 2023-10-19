@@ -8,13 +8,25 @@ import sys
 
 
 def compute_stats_from_df(df):
-    median_error = np.median(df.final_error)
-    q_075 = np.quantile(df.final_error, 0.75)
-    q_095 = np.quantile(df.final_error, 0.95)
-    mean_error = np.mean(df.final_error)
-    std_dev = np.std(df.final_error)
+    df_final_filtered = df.final_error[df['status_code'] == "ok"]
 
-    return median_error, q_075, q_095, mean_error, std_dev
+    oom_errors = len(df[df['status_code'] == 'OOM'])
+    runtime_errors = len(df[df['status_code'] == 'runtime_error'])
+
+    if not df_final_filtered.empty:
+        median_error = np.median(df.final_error[df['status_code'] == "ok"])
+        q_075 = np.quantile(df.final_error[df['status_code'] == "ok"], 0.75)
+        q_095 = np.quantile(df.final_error[df['status_code'] == "ok"], 0.95)
+        mean_error = np.mean(df.final_error[df['status_code'] == "ok"])
+        std_dev = np.std(df.final_error[df['status_code'] == "ok"])
+    else:
+        median_error = float('nan')
+        q_075 = float('nan')
+        q_095 = float('nan')
+        mean_error = float('nan')
+        std_dev = float('nan')
+
+    return median_error, q_075, q_095, mean_error, std_dev, oom_errors, runtime_errors
 
 
 def get_df(input_dir):
@@ -23,7 +35,7 @@ def get_df(input_dir):
 
     # calculate stats for each sequence
     for f in os.listdir(input_dir):
-        if f.endswith(".txt"):
+        if f.endswith("result.txt"):
             df = pd.read_csv(os.path.join(input_dir, f),
                              sep=';',
                              comment='#')
@@ -41,7 +53,7 @@ def get_df(input_dir):
     stats_data.append(stats)
 
     stats_columns = ["sequence", "median",
-                     "0.75 Q", "0.95 Q", "mean", "std_dev"]
+                     "0.75 Q", "0.95 Q", "mean", "std_dev", "oom_errors", "runtime_errors"]
     df_stats = pd.DataFrame(stats_data, columns=stats_columns)
 
     df_stats['sequence'] = pd.Categorical(df_stats['sequence'], ["plain", "stairs", "apartment",
@@ -65,7 +77,7 @@ def main(args):
                  "pioneer_slam3", "long_office_household",
                  "urban05", "Total"]
     
-    folders = ["RANSAC_voxelgrid_0.2", "FastGlobal_voxelgrid_0.2", "TEASER_voxelgrid_0.2"]
+    folders = ["kitti", "3d-match"]
     stats = ["median","0.75 Q", "0.95 Q"]
     multi_columns = ["sequence"] + [(f.split("_")[0],s) for f,s in zip(folders, stats)]
     
@@ -90,9 +102,9 @@ def main(args):
             df_stats.to_csv(f"{dir}/result_stats.csv", na_rep='NaN')
         
         print(folder)
-        print(df_stats)
+        with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+            print(df_stats)
         print("----------")
-
 
     full_stats = pd.concat(all_stats, axis=1, keys=[f.split("_")[0] for f in folders])
     print(full_stats)
