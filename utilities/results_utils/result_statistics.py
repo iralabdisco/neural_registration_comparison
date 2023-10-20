@@ -73,8 +73,8 @@ def main(args):
                  "pioneer_slam3", "long_office_household",
                  "urban05", "Total"]
     
-    folders = ["kitti", "3d-match"]
-    stats = ["median","0.75 Q", "0.95 Q"]
+    folders = [name for name in os.listdir(args.input_dir) if os.path.isdir(args.input_dir + "/" + name)]
+    stats = ["median", "0.75 Q", "0.95 Q"]
 
     full_stats = pd.DataFrame(sequences, columns=['sequence'])
     full_stats.set_index("sequence", inplace=True)
