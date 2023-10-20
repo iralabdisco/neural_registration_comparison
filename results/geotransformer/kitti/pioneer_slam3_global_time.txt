@@ -1,18 +1,18 @@
 	Command being timed: "python3 geo_benchmark.py --weights=/home/docker/GeoTransformer_benchmark/weights/geotransformer-kitti.pth.tar --input_txt=/benchmark/point_clouds_registration_benchmark/dataset_voxelgrid_0.3//tum/pioneer_slam3_global.txt --input_pcd_dir=/benchmark/point_clouds_registration_benchmark/dataset_voxelgrid_0.3//tum/pioneer_slam3/ --output_dir=/benchmark/experiments/geotransformer/kitti"
-	User time (seconds): 10.71
-	System time (seconds): 2.73
-	Percent of CPU this job got: 170%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:07.88
+	User time (seconds): 10.47
+	System time (seconds): 2.51
+	Percent of CPU this job got: 177%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:07.33
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 3339340
+	Maximum resident set size (kbytes): 3340400
 	Average resident set size (kbytes): 0
-	Major (requiring I/O) page faults: 3
-	Minor (reclaiming a frame) page faults: 887427
-	Voluntary context switches: 2472
-	Involuntary context switches: 324
+	Major (requiring I/O) page faults: 2
+	Minor (reclaiming a frame) page faults: 825657
+	Voluntary context switches: 2222
+	Involuntary context switches: 735
 	Swaps: 0
 	File system inputs: 0
 	File system outputs: 88

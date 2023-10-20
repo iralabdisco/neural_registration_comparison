@@ -1,21 +1,21 @@
 	Command being timed: "python3 geo_benchmark.py --weights=/home/docker/GeoTransformer_benchmark/weights/geotransformer-3dmatch.pth.tar --input_txt=/benchmark/point_clouds_registration_benchmark//eth/stairs_global.txt --input_pcd_dir=/benchmark/point_clouds_registration_benchmark//eth/stairs/ --output_dir=/benchmark/experiments/geotransformer/3d-match"
-	User time (seconds): 229.04
-	System time (seconds): 22.32
-	Percent of CPU this job got: 129%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:14.11
+	User time (seconds): 235.74
+	System time (seconds): 31.42
+	Percent of CPU this job got: 124%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:33.83
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 3788828
+	Maximum resident set size (kbytes): 3781840
 	Average resident set size (kbytes): 0
 	Major (requiring I/O) page faults: 0
-	Minor (reclaiming a frame) page faults: 9400215
-	Voluntary context switches: 49588
-	Involuntary context switches: 1730
+	Minor (reclaiming a frame) page faults: 10633552
+	Voluntary context switches: 55378
+	Involuntary context switches: 1936
 	Swaps: 0
 	File system inputs: 0
-	File system outputs: 440
+	File system outputs: 200
 	Socket messages sent: 0
 	Socket messages received: 0
 	Signals delivered: 0
