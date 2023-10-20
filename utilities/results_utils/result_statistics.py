@@ -2,10 +2,6 @@ import pandas as pd
 import numpy as np
 import argparse
 import os
-import copy
-import csv
-import sys
-
 
 def compute_stats_from_df(df):
     df_final_filtered = df.final_error[df['status_code'] == "ok"]
@@ -79,27 +75,17 @@ def main(args):
     
     folders = ["kitti", "3d-match"]
     stats = ["median","0.75 Q", "0.95 Q"]
-    multi_columns = ["sequence"] + [(f.split("_")[0],s) for f,s in zip(folders, stats)]
-    
+
     full_stats = pd.DataFrame(sequences, columns=['sequence'])
     full_stats.set_index("sequence", inplace=True)
 
-
     all_stats = []
     for folder in folders:
-        dir = os.path.join(args.input_dir, folder)
-        df_stats = get_df(dir)
+        dir_results = os.path.join(args.input_dir, folder)
+        df_stats = get_df(dir_results)
         all_stats.append(df_stats[stats])
-        #print(df_stats.rename({"median":f"median_{folder}"}, axis = 1))
-        #renamed = df_stats.rename({"median":f"median_{folder}"}, axis = 1)[f"median_{folder}"]
-        
-        #renamed = df_stats.add_suffix(f"_{folder}")
-        #full_stats = full_stats.join(renamed, on="sequence")
-
-        # print(df_stats.reset_index().to_string(index=False))
-        #print(df_stats.to_latex(columns = ["median", "0.75 Q", "0.95 Q"], float_format="%.2f", bold_rows =  True))
-        if (args.write_csv is True):
-            df_stats.to_csv(f"{dir}/result_stats.csv", na_rep='NaN')
+        if args.write_csv is True:
+            df_stats.to_csv(f"{dir_results}/result_stats.csv", na_rep='NaN')
         
         print(folder)
         with pd.option_context('display.max_rows', None, 'display.max_columns', None):
@@ -108,8 +94,8 @@ def main(args):
 
     full_stats = pd.concat(all_stats, axis=1, keys=[f.split("_")[0] for f in folders])
     print(full_stats)
-    #medians = full_stats.columns.str.contains('median*')
     print(full_stats.to_latex(float_format="%.2f", bold_rows =  True, caption = os.path.dirname(args.input_dir), multicolumn= True, longtable= False))
+
 
 if __name__ == '__main__':
 
