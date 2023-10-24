@@ -1,0 +1,23 @@
+	Command being timed: "python3 fpfh_benchmark.py --voxel_size=0.1 --input_txt=/benchmark/point_clouds_registration_benchmark/dataset_voxelgrid_0.1/planetary/box_met_global.txt --input_pcd_dir=/benchmark/point_clouds_registration_benchmark/dataset_voxelgrid_0.1/planetary/box_met/ --output_dir=/benchmark/experiments/FPFH/features/voxelgrid_0.1//planetary/box_met/"
+	User time (seconds): 246.82
+	System time (seconds): 1.98
+	Percent of CPU this job got: 297%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:23.51
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 298652
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 10
+	Minor (reclaiming a frame) page faults: 228401
+	Voluntary context switches: 38118
+	Involuntary context switches: 3734
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 2001672
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

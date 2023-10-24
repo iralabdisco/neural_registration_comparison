@@ -1,0 +1,23 @@
+	Command being timed: "python3 registration_from_features.py FastGlobal FastGlobal_config.json euclidean True --use_random_keypoints=True --n_keypoints=5000 --input_txt=/benchmark/point_clouds_registration_benchmark//planetary/box_met_global.txt --input_pcd_dir=/benchmark/point_clouds_registration_benchmark//planetary/box_met/ --input_features_dir=/benchmark/experiments/FPFH/features/voxelgrid_0.1//planetary/box_met/ --output_dir=/benchmark/experiments/FPFH/results/voxelgrid_0.1/FastGlobal/"
+	User time (seconds): 192.34
+	System time (seconds): 13.51
+	Percent of CPU this job got: 122%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:48.60
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 255624
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1
+	Minor (reclaiming a frame) page faults: 87533
+	Voluntary context switches: 68568
+	Involuntary context switches: 47703
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 216
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
