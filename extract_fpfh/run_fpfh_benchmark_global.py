@@ -1,12 +1,13 @@
 import os, shutil
 from multiprocessing import Pool
+from pathlib import Path
 
 PY3="python3"
-N_THREADS = 4
-BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark"
-RESULTS_DIR="/neural_comparison/experiments/FPFH/features_voxelgrid_0.2_test/"
+N_THREADS = 1
+BENCHMARK_DIR="/benchmark/point_clouds_registration_benchmark/dataset_voxelgrid_0.1"
+RESULTS_DIR="/benchmark/experiments/FPFH/features/voxelgrid_0.1/"
 
-VOXEL_SIZE = 0.2
+VOXEL_SIZE = 0.1
 
 base_command = ( f'{PY3}' + ' fpfh_benchmark.py' +
                  f' --voxel_size={VOXEL_SIZE}')
@@ -66,7 +67,10 @@ for problem_txt, pcd_dir, feature_dir in zip(problem_txts, pcd_dirs, feature_dir
                     f' --input_txt={BENCHMARK_DIR}/{problem_txt}' +
                     f' --input_pcd_dir={BENCHMARK_DIR}/{pcd_dir}' +
                     f' --output_dir={RESULTS_DIR}/{feature_dir}')
-    commands.append(full_command)
+
+    problem_name = Path(problem_txt).stem
+    time_command = f'command time --verbose -o {RESULTS_DIR}/{problem_name}_time.txt ' + full_command
+    commands.append(time_command)
 
 shutil.rmtree(RESULTS_DIR, ignore_errors=True)
 os.makedirs(RESULTS_DIR)

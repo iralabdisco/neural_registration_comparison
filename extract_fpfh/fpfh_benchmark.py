@@ -12,17 +12,16 @@ def pcd2xyz(pcd):
 
 def preprocess_point_cloud(pcd, voxel_size):
     o3d.utility.set_verbosity_level(o3d.utility.Error)
-    pcd_down = pcd.voxel_down_sample(voxel_size)
 
     radius_normal = voxel_size * 2
-    pcd_down.estimate_normals(
+    pcd.estimate_normals(
         o3d.geometry.KDTreeSearchParamHybrid(radius=radius_normal, max_nn=30))
 
     radius_feature = voxel_size * 5
     pcd_fpfh = o3d.pipelines.registration.compute_fpfh_feature(
-        pcd_down,
+        pcd,
         o3d.geometry.KDTreeSearchParamHybrid(radius=radius_feature, max_nn=100))
-    return pcd_down, np.array(pcd_fpfh.data).T
+    return pcd, np.array(pcd_fpfh.data).T
 
 def main(args):
     os.makedirs(args.output_dir, exist_ok=True)
