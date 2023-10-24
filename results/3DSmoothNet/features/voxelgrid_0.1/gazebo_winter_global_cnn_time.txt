@@ -1,0 +1,23 @@
+	Command being timed: "python3 main_cnn.py --run_mode=test --output_dim=64 --evaluate_input_folder /benchmark/experiments/3DSmoothNet/features//eth/gazebo_winter/ --evaluate_output_folder=/benchmark/experiments/3DSmoothNet/features//eth/gazebo_winter/"
+	User time (seconds): 184.81
+	System time (seconds): 28.22
+	Percent of CPU this job got: 103%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:26.73
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2046680
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 26
+	Minor (reclaiming a frame) page faults: 8112284
+	Voluntary context switches: 2283167
+	Involuntary context switches: 1449
+	Swaps: 0
+	File system inputs: 20640832
+	File system outputs: 621928
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

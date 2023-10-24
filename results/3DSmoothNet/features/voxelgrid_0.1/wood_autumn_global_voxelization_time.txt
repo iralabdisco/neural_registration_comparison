@@ -1,0 +1,23 @@
+	Command being timed: "python /home/3DSmoothNet/exec_on_benchmark.py voxel_parameters.yaml"
+	User time (seconds): 2425.16
+	System time (seconds): 32.31
+	Percent of CPU this job got: 600%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 6:49.40
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 233168
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 14
+	Minor (reclaiming a frame) page faults: 10597674
+	Voluntary context switches: 97842
+	Involuntary context switches: 160016
+	Swaps: 0
+	File system inputs: 312
+	File system outputs: 32142032
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

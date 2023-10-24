@@ -1,0 +1,23 @@
+	Command being timed: "python3 main_cnn.py --run_mode=test --output_dim=64 --evaluate_input_folder /benchmark/experiments/3DSmoothNet/features//eth/stairs/ --evaluate_output_folder=/benchmark/experiments/3DSmoothNet/features//eth/stairs/"
+	User time (seconds): 183.59
+	System time (seconds): 28.07
+	Percent of CPU this job got: 103%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:24.51
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2055016
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 76
+	Minor (reclaiming a frame) page faults: 8049645
+	Voluntary context switches: 2264551
+	Involuntary context switches: 1783
+	Swaps: 0
+	File system inputs: 20492528
+	File system outputs: 621048
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
