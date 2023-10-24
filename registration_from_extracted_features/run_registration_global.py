@@ -95,6 +95,11 @@ for problem_txt, pcd_dir, features_dir in zip(problem_txts, pcd_dirs, features_d
     commands.append(time_command)
 
 # delete and recreate result directory
+answer = input(f"Delete previous {RESULTS_DIR} experiments? [Y/N] ")
+if answer != "Y":
+    print("Quitting...")
+    exit()
+
 shutil.rmtree(RESULTS_DIR, ignore_errors=True)
 os.makedirs(RESULTS_DIR)
 # save config in result directory
