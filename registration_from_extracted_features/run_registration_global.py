@@ -1,6 +1,7 @@
 import os
 import shutil
 from multiprocessing import Pool
+from pathlib import Path
 
 PY3="python3"
 N_THREADS = 1
@@ -12,16 +13,16 @@ Per RANSAC settare "max_correspondence_distance" a VOXEL_SIZE * 1.5
 Per Fast Global Registration settare "maximum_correspondence_distance" a VOXEL_SIZE*0.5
 Per TEASER settare "noise_bound" a VOXEL_SIZE
 """
-ALGORITHM = "TEASER"
-CONFIG = "TEASER_config.json"
+ALGORITHM = "FastGlobal"
+CONFIG = f"{ALGORITHM}_config.json"
 DISTANCE = "euclidean"
 MUTUAL_FILTER = "True"
 USE_RANDOM_KEYPOINTS = "True"
 N_KEYPOINTS = 5000
 
-BENCHMARK_DIR="/neural_comparison/point_clouds_registration_benchmark/"
-FEATURES_DIR="/neural_comparison/experiments/FCGF/3dmatch_normalized_5cm_32_2023"
-RESULTS_DIR="/root/neural_registration_comparison/results/FCGF/3dmatch_normalized_5cm_32_new/TEASER/"
+BENCHMARK_DIR="/benchmark/point_clouds_registration_benchmark/"
+FEATURES_DIR="/benchmark/experiments/FPFH/features/voxelgrid_0.1/"
+RESULTS_DIR=f"/benchmark/experiments/FPFH/results/voxelgrid_0.1/{ALGORITHM}/"
 
 
 base_command = ( f'{PY3}' + ' registration_from_features.py'
@@ -33,7 +34,7 @@ base_command = ( f'{PY3}' + ' registration_from_features.py'
                 f' --n_keypoints={N_KEYPOINTS}')
 
 problem_txts = ['kaist/urban05_global.txt',
-                'eth/apartment_global.txt', 
+                'eth/apartment_global.txt',
                 'eth/gazebo_summer_global.txt',
                 'eth/gazebo_winter_global.txt',
                 'eth/hauptgebaude_global.txt',
@@ -49,7 +50,7 @@ problem_txts = ['kaist/urban05_global.txt',
                 'planetary/planetary_map_global.txt']
 
 pcd_dirs = ['kaist/urban05/',
-            'eth/apartment/', 
+            'eth/apartment/',
             'eth/gazebo_summer/',
             'eth/gazebo_winter/',
             'eth/hauptgebaude/',
@@ -65,7 +66,7 @@ pcd_dirs = ['kaist/urban05/',
             'planetary/p2at_met/']
 
 features_dirs = ['kaist/urban05/',
-                'eth/apartment/', 
+                'eth/apartment/',
                 'eth/gazebo_summer/',
                 'eth/gazebo_winter/',
                 'eth/hauptgebaude/',
@@ -88,7 +89,10 @@ for problem_txt, pcd_dir, features_dir in zip(problem_txts, pcd_dirs, features_d
                     f' --input_pcd_dir={BENCHMARK_DIR}/{pcd_dir}' +
                     f' --input_features_dir={FEATURES_DIR}/{features_dir}' +
                     f' --output_dir={RESULTS_DIR}')
-    commands.append(full_command)
+
+    problem_name = Path(problem_txt).stem
+    time_command = f'command time --verbose -o {RESULTS_DIR}/{problem_name}_time.txt ' + full_command
+    commands.append(time_command)
 
 # delete and recreate result directory
 shutil.rmtree(RESULTS_DIR, ignore_errors=True)
