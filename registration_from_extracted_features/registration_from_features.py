@@ -29,7 +29,7 @@ def main(args):
     # initialize result file
     os.makedirs(args.output_dir, exist_ok=True)
     header_comment = "# " + " ".join(sys.argv[:]) + "\n"
-    header = ['id', 'initial_error', 'final_error', 'transformation']
+    header = ['id', 'initial_error', 'final_error', 'transformation', 'status_code']
     result_name = problem_name + "_result.txt"
     result_filename = os.path.join(args.output_dir, result_name)
     with open(result_filename, mode='w') as f:
@@ -101,6 +101,8 @@ def main(args):
             registration_solution = FastGlobal_benchmark.run_FastGlobal_registration(config, source_xyz, target_xyz, corrs_S, corrs_T)
         elif args.algorithm == "TEASER":
             registration_solution = TEASER_benchmark.run_TEASER_registration(config, source_xyz, target_xyz, corrs_S, corrs_T)
+        else:
+            raise NotImplementedError
         
         # calculate final error
         moved_source_pcd.transform(registration_solution)
@@ -108,8 +110,7 @@ def main(args):
 
         # write results to file
         str_solution = ' '.join(map(str, registration_solution.ravel()))
-        results = [problem_id, initial_error, final_error, 
-                    str_solution]
+        results = [problem_id, initial_error, final_error, str_solution, 'ok']
         with open(result_filename, mode='a') as f:
             csv_writer = csv.writer(f, delimiter=';', quoting=csv.QUOTE_NONE, escapechar=' ')
             csv_writer.writerow(results)
