@@ -1,0 +1,23 @@
+	Command being timed: "python3 registration_from_features.py FastGlobal FastGlobal_config.json euclidean True --use_random_keypoints=True --n_keypoints=5000 --use_status_txt --input_txt=/benchmark/point_clouds_registration_benchmark//kaist/urban05_global.txt --input_pcd_dir=/benchmark/point_clouds_registration_benchmark//kaist/urban05/ --input_features_dir=/benchmark/experiments/OverlapPredator/3DMatch/features/kaist/urban05/ --output_dir=/benchmark/experiments/OverlapPredator/3DMatch/results/FastGlobal/"
+	User time (seconds): 5.14
+	System time (seconds): 1.09
+	Percent of CPU this job got: 135%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:04.62
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 202124
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 5
+	Minor (reclaiming a frame) page faults: 71585
+	Voluntary context switches: 1913
+	Involuntary context switches: 57578
+	Swaps: 0
+	File system inputs: 40
+	File system outputs: 72
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -1,0 +1,23 @@
+	Command being timed: "python3 registration_from_features.py TEASER TEASER_config.json euclidean True --use_random_keypoints=True --n_keypoints=5000 --use_status_txt --input_txt=/benchmark/point_clouds_registration_benchmark//planetary/planetary_map_global.txt --input_pcd_dir=/benchmark/point_clouds_registration_benchmark//planetary/p2at_met/ --input_features_dir=/benchmark/experiments/OverlapPredator/KITTI/features/planetary/planetary_map/ --output_dir=/benchmark/experiments/OverlapPredator/KITTI/results/TEASER/"
+	User time (seconds): 61.88
+	System time (seconds): 1.34
+	Percent of CPU this job got: 105%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:00.19
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 210204
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 2
+	Minor (reclaiming a frame) page faults: 91692
+	Voluntary context switches: 24478
+	Involuntary context switches: 622
+	Swaps: 0
+	File system inputs: 4168
+	File system outputs: 112
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
