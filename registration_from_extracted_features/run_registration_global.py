@@ -2,29 +2,23 @@ import os
 import shutil
 from multiprocessing import Pool
 from pathlib import Path
+import json
 
 PY3="python3"
 N_THREADS = 1
 
-"""
-Nota per i file config.json:
-
-Per RANSAC settare "max_correspondence_distance" a VOXEL_SIZE * 1.5
-Per Fast Global Registration settare "maximum_correspondence_distance" a VOXEL_SIZE*0.5
-Per TEASER settare "noise_bound" a VOXEL_SIZE
-"""
 ALGORITHM = "RANSAC"
 CONFIG = f"{ALGORITHM}_config.json"
 DISTANCE = "euclidean"
 MUTUAL_FILTER = "True"
 USE_RANDOM_KEYPOINTS = "True"
 N_KEYPOINTS = 5000
+VOXEL_SIZE = 0.1
 USE_STATUS_TXT = True
 
 BENCHMARK_DIR="/benchmark/point_clouds_registration_benchmark/"
 FEATURES_DIR="/benchmark/experiments/OverlapPredator/KITTI/features"
 RESULTS_DIR=f"/benchmark/experiments/OverlapPredator/KITTI/results/{ALGORITHM}/"
-
 
 base_command = ( f'{PY3}' + ' registration_from_features.py'
                 f' {ALGORITHM}' +
@@ -85,6 +79,20 @@ features_dirs = ['kaist/urban05/',
                 'planetary/planetary_map/']
 
 commands = []
+
+#Update registration parameters based on voxel size
+with open(CONFIG) as config_file:
+    config = json.load(config_file)
+    if ALGORITHM == "RANSAC":
+        config["max_correspondence_distance"] = VOXEL_SIZE*1.5
+    elif ALGORITHM == "TEASER":
+        config["noise_bound"] = VOXEL_SIZE
+    elif ALGORITHM == "FastGlobal":
+        config["maximum_correspondence_distance"] = VOXEL_SIZE*0.5
+    else:
+        raise NotImplemented
+with open(CONFIG, 'w') as config_file:
+    json.dump(config, config_file)
 
 for problem_txt, pcd_dir, features_dir in zip(problem_txts, pcd_dirs, features_dirs):
     full_command = (base_command + 
