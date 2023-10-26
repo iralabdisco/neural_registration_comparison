@@ -80,17 +80,17 @@ def main(args):
     full_stats.set_index("sequence", inplace=True)
 
     all_stats = []
+    errors_stats = []
     for folder in folders:
         dir_results = os.path.join(args.input_dir, folder)
         df_stats = get_df(dir_results)
         all_stats.append(df_stats[stats])
+        if len(errors_stats) == 0:
+            errors_stats.append(df_stats[["oom_errors", "runtime_errors"]])
+            print(df_stats[['oom_errors', 'runtime_errors']])
         if args.write_csv is True:
             df_stats.to_csv(f"{dir_results}/result_stats.csv", na_rep='NaN')
-        
-        print(folder)
-        print(df_stats[['median', '0.95 Q', 'oom_errors', 'runtime_errors']])
-        print("----------")
-
+    print("----------")
     full_stats = pd.concat(all_stats, axis=1, keys=[f.split("_")[0] for f in folders])
     print(full_stats)
     print(full_stats.to_latex(float_format="%.2f", bold_rows =  True, caption = os.path.dirname(args.input_dir), multicolumn= True, longtable= False))
