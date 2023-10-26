@@ -50,6 +50,12 @@ def main(args):
 
     # start solving all problems in .txt
     print(problem_name)
+
+    if args.use_status_txt:
+        status_df = pd.read_csv(os.path.join(args.input_features_dir, problem_name + "_status.txt"),
+                         sep=';',
+                         comment='#')
+
     for _, row in tqdm(df.iterrows(), total=df.shape[0]):
 
         problem_id, source_pcd_filename, target_pcd_filename, source_transform = \
@@ -65,6 +71,21 @@ def main(args):
         initial_error = metric.calculate_error(source_pcd, moved_source_pcd)
         
         # load target and source xyz and features
+        target_npz_filename = os.path.join(args.input_features_dir, os.path.splitext(target_pcd_filename)[0]) + '.npz'
+        source_npz_filename = os.path.join(args.input_features_dir, str(problem_id)) + '.npz'
+
+        if args.use_status_txt and (not os.path.exists(target_npz_filename) or not os.path.exists(source_npz_filename)):
+            status_code = status_df.loc[df['id'] == problem_id, 'status_code'].values[0]
+
+            registration_solution = np.eye(4)
+            # write results to file
+            str_solution = ' '.join(map(str, registration_solution.ravel()))
+            results = [problem_id, initial_error, initial_error, str_solution, status_code]
+            with open(result_filename, mode='a') as f:
+                csv_writer = csv.writer(f, delimiter=';', quoting=csv.QUOTE_NONE, escapechar=' ')
+                csv_writer.writerow(results)
+            continue
+
         target_npz = np.load(os.path.join(args.input_features_dir, os.path.splitext(target_pcd_filename)[0]) + '.npz')
         source_npz = np.load(os.path.join(args.input_features_dir, str(problem_id)) + '.npz')
         target_features = target_npz['features']
@@ -146,6 +167,7 @@ if __name__ == '__main__':
                         help='Directory which contains the features')
     parser.add_argument('--output_dir', type=str,
                         help='Directory to save the results to')
+    parser.add_argument("--use_status_txt", action="store_true", help="Use status txt to check what happend if some features were not generated")
 
     args = parser.parse_args()
 

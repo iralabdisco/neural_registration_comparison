@@ -1,6 +1,6 @@
 {
     "cbar2": 1,
-    "noise_bound": 0.1,
+    "noise_bound": 0.3,
     "estimate_scaling": false,
     "rotation_estimation_algorithm": "teaserpp_python.RobustRegistrationSolver.ROTATION_ESTIMATION_ALGORITHM.GNC_TLS",
     "rotation_gnc_factor": 1.4,

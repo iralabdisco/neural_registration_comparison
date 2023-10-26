@@ -13,16 +13,17 @@ Per RANSAC settare "max_correspondence_distance" a VOXEL_SIZE * 1.5
 Per Fast Global Registration settare "maximum_correspondence_distance" a VOXEL_SIZE*0.5
 Per TEASER settare "noise_bound" a VOXEL_SIZE
 """
-ALGORITHM = "FastGlobal"
+ALGORITHM = "RANSAC"
 CONFIG = f"{ALGORITHM}_config.json"
 DISTANCE = "euclidean"
 MUTUAL_FILTER = "True"
 USE_RANDOM_KEYPOINTS = "True"
 N_KEYPOINTS = 5000
+USE_STATUS_TXT = True
 
 BENCHMARK_DIR="/benchmark/point_clouds_registration_benchmark/"
-FEATURES_DIR="/benchmark/experiments/FPFH/features/voxelgrid_0.1/"
-RESULTS_DIR=f"/benchmark/experiments/FPFH/results/voxelgrid_0.1/{ALGORITHM}/"
+FEATURES_DIR="/benchmark/experiments/OverlapPredator/KITTI/features"
+RESULTS_DIR=f"/benchmark/experiments/OverlapPredator/KITTI/results/{ALGORITHM}/"
 
 
 base_command = ( f'{PY3}' + ' registration_from_features.py'
@@ -32,6 +33,8 @@ base_command = ( f'{PY3}' + ' registration_from_features.py'
                 f' {MUTUAL_FILTER}' +
                 f' --use_random_keypoints={USE_RANDOM_KEYPOINTS}' +
                 f' --n_keypoints={N_KEYPOINTS}')
+if USE_STATUS_TXT:
+    base_command = base_command + " --use_status_txt"
 
 problem_txts = ['kaist/urban05_global.txt',
                 'eth/apartment_global.txt',
