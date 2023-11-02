@@ -87,28 +87,17 @@ def main(args):
                  "pioneer_slam3", "long_office_household",
                  "urban05", "Total"]
 
-    folders = [name for name in os.listdir(args.input_dir) if os.path.isdir(args.input_dir + "/" + name)]
-    stats = ["total_time"]
 
-    full_stats = pd.DataFrame(sequences, columns=['sequence'])
-    full_stats.set_index("sequence", inplace=True)
+    dir = os.path.join(args.input_dir)
+    df_stats = get_times(dir)
+    if args.write_csv is True:
+        df_stats.to_csv(f"{dir}/result_stats.csv", na_rep='NaN')
 
-    all_stats = []
-    for folder in folders:
-        dir = os.path.join(args.input_dir, folder)
-        df_stats = get_times(dir)
-        all_stats.append(df_stats[stats])
-        if args.write_csv is True:
-            df_stats.to_csv(f"{dir}/result_stats.csv", na_rep='NaN')
+    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+        print(df_stats)
+    print("----------")
 
-        print(folder)
-        with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-            print(df_stats)
-        print("----------")
-
-    full_stats = pd.concat(all_stats, axis=1, keys=[f.split("_")[0] for f in folders])
-    print(full_stats)
-    print(full_stats.to_latex(float_format="%.2f", bold_rows=True, caption=os.path.dirname(args.input_dir),
+    print(df_stats.to_latex(float_format="%.2f", bold_rows=True, caption=os.path.dirname(args.input_dir),
                               multicolumn=True, longtable=False))
 
 
