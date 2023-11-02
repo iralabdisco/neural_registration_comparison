@@ -63,7 +63,7 @@ def get_times(input_dir):
     stats.insert(0, "Total")
     stats_data.append(stats)
 
-    stats_columns = ["sequence", "total_time"]
+    stats_columns = ["sequence", "total_time [s]"]
     df_stats = pd.DataFrame(stats_data, columns=stats_columns)
 
     df_stats['sequence'] = pd.Categorical(df_stats['sequence'], ["plain", "stairs", "apartment",
