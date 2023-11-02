@@ -2,6 +2,7 @@ import pandas as pd
 import argparse
 import os
 
+
 def get_number_of_executions(benchmark_dir, sequence, features):
     txt_name = os.path.join(benchmark_dir, sequence+"_global.txt")
     df = pd.read_csv(txt_name, sep=' ', comment='#')
@@ -16,6 +17,7 @@ def get_number_of_executions(benchmark_dir, sequence, features):
         executions = len(df)
 
     return executions
+
 
 def time_to_seconds(time_str):
     # Split the time string into components
@@ -41,7 +43,6 @@ def get_times(input_dir):
             sequence_name = os.path.splitext(os.path.basename(f))[0]
             sequence_name = sequence_name.split("_")
             sequence_name = "_".join(sequence_name[:-2])
-
             n_executions = get_number_of_executions(args.benchmark_dir, sequence_name, args.features)
             total_executions += n_executions
             with open(os.path.join(input_dir, f), 'r') as file:
@@ -106,13 +107,14 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Compute results statistics')
+    parser = argparse.ArgumentParser(description='Compute time statistics')
     parser.add_argument('input_dir', type=str,
-                        help='Directory where the result files are located')
+                        help='Directory where the time.txt files are located')
     parser.add_argument('benchmark_dir', type=str, help='Benchmark txt problems location', nargs='?',
                         default="/benchmark/point_clouds_registration_benchmark/devel/registration_pairs/")
     parser.add_argument('--write_csv', type=bool,
-                        default=False)
-    parser.add_argument('--features', action='store_true', default=False)
+                        default=False, help="Dump table to csv")
+    parser.add_argument('--features', action='store_true',
+                        default=False, help="Specify this flag if the algorithm was only used for feature extraction")
     args = parser.parse_args()
     main(args)

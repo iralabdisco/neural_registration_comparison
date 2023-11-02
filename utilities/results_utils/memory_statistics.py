@@ -85,10 +85,10 @@ def main(args_command):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Compute results statistics')
+    parser = argparse.ArgumentParser(description='Compute memory statistics')
     parser.add_argument('input_dir', type=str,
-                        help='Directory where the result files are located')
+                        help='Directory where the memory.txt files are located')
     parser.add_argument('--write_csv', type=bool,
-                        default=False)
+                        default=False, help="Dump table to file")
     args = parser.parse_args()
     main(args)
