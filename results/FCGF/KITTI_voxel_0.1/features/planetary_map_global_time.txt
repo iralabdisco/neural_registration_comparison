@@ -1,0 +1,23 @@
+	Command being timed: "python3 fcgf_benchmark.py --model_path=pretrained/kitti_notnormalized_20cm_32.pth --voxel_size=0.1 --output_features=32 --normalize=False --conv_1_kernel_size=7 --D=3 --input_txt=/benchmark/point_clouds_registration_benchmark/planetary/planetary_map_global.txt --input_pcd_dir=/benchmark/point_clouds_registration_benchmark/planetary/p2at_met/ --output_dir=/benchmark/experiments/FCGF/KITTI_voxelgrid_0.1//planetary/planetary_map/"
+	User time (seconds): 35.82
+	System time (seconds): 2.77
+	Percent of CPU this job got: 119%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:32.21
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2648060
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 12
+	Minor (reclaiming a frame) page faults: 558480
+	Voluntary context switches: 14142
+	Involuntary context switches: 4356
+	Swaps: 0
+	File system inputs: 16
+	File system outputs: 549512
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
