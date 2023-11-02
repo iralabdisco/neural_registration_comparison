@@ -1,0 +1,23 @@
+	Command being timed: "python3 fcgf_benchmark.py --model_path=pretrained/3dmatch_normalized_5cm_32.pth --voxel_size=0.05 --output_features=32 --normalize=True --conv_1_kernel_size=7 --D=3 --input_txt=/benchmark/point_clouds_registration_benchmark/tum/long_office_household_global.txt --input_pcd_dir=/benchmark/point_clouds_registration_benchmark/tum/long_office_household/ --output_dir=/benchmark/experiments/FCGF/3dmatch/features_normalized/tum/long_office_household/"
+	User time (seconds): 81.83
+	System time (seconds): 2.65
+	Percent of CPU this job got: 102%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:22.13
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2396652
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 4
+	Minor (reclaiming a frame) page faults: 560847
+	Voluntary context switches: 33481
+	Involuntary context switches: 1828
+	Swaps: 0
+	File system inputs: 256
+	File system outputs: 161360
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

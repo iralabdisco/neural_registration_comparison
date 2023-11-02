@@ -1,0 +1,23 @@
+	Command being timed: "python3 registration_from_features.py FastGlobal FastGlobal_config.json euclidean True --use_random_keypoints=True --n_keypoints=5000 --input_txt=/benchmark/point_clouds_registration_benchmark//eth/wood_autumn_global.txt --input_pcd_dir=/benchmark/point_clouds_registration_benchmark//eth/wood_autumn/ --input_features_dir=/benchmark/experiments/FCGF/3dmatch/features_normalized/eth/wood_autumn/ --output_dir=/benchmark/experiments/3dmatch/results_normalized/FastGlobal"
+	User time (seconds): 1879.89
+	System time (seconds): 15.66
+	Percent of CPU this job got: 102%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 30:52.42
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 259240
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 5
+	Minor (reclaiming a frame) page faults: 75969
+	Voluntary context switches: 734608
+	Involuntary context switches: 43046
+	Swaps: 0
+	File system inputs: 96
+	File system outputs: 944
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
