@@ -1,21 +1,21 @@
 import pandas as pd
-import numpy as np
 import argparse
 import os
 
-def compute_memory_from_df(df):
-    memory_list = (df[" memory.used [MiB]"].to_list())
-    # remove MiB from the string
-    memory_list = [s.split()[0] for s in memory_list]
-    memory_list = np.array(memory_list, dtype=np.float32)
+def get_number_of_executions(benchmark_dir, sequence, features):
+    txt_name = os.path.join(benchmark_dir, sequence+"_global.txt")
+    df = pd.read_csv(txt_name, sep=' ', comment='#')
+    df = df.reset_index()
+    if features:
+        #only count unique target pc since we only calculate the features once
+        source_pc_number = len(df)
+        target_pc_number = df['target'].nunique()
+        executions = source_pc_number + target_pc_number
+        pass
+    else:
+        executions = len(df)
 
-    median = np.median(memory_list)
-    q_075 = np.quantile(memory_list, 0.75)
-    q_095 = np.quantile(memory_list, 0.95)
-    mean = np.mean(memory_list)
-    std = np.std(memory_list)
-    max_mem = np.max(memory_list)
-    return median, q_075, q_095, mean, std, max_mem
+    return executions
 
 def time_to_seconds(time_str):
     # Split the time string into components
@@ -34,10 +34,16 @@ def time_to_seconds(time_str):
 def get_times(input_dir):
     stats_data = []
     total_time = 0
-
+    total_executions = 0
     # calculate stats for each sequence
     for f in os.listdir(input_dir):
         if f.endswith("time.txt"):
+            sequence_name = os.path.splitext(os.path.basename(f))[0]
+            sequence_name = sequence_name.split("_")
+            sequence_name = "_".join(sequence_name[:-2])
+
+            n_executions = get_number_of_executions(args.benchmark_dir, sequence_name, args.features)
+            total_executions += n_executions
             with open(os.path.join(input_dir, f), 'r') as file:
                 # Read the file line by line
                 lines = file.readlines()
@@ -50,20 +56,18 @@ def get_times(input_dir):
             time = time_line.split()[-1]
             time_seconds = time_to_seconds(time)
 
-            sequence_name = os.path.splitext(os.path.basename(f))[0]
-            sequence_name = sequence_name.split("_")
-            sequence_name = "_".join(sequence_name[:-2])
-            stats = [time_seconds]
+            time_per_execution = time_seconds/n_executions
+            stats = [time_seconds, time_per_execution]
             stats.insert(0, sequence_name)
             stats_data.append(stats)
             total_time += time_seconds
 
     # calculate stats for all problems together
-    stats = [total_time]
+    stats = [total_time, total_time/total_executions]
     stats.insert(0, "Total")
     stats_data.append(stats)
 
-    stats_columns = ["sequence", "total_time [s]"]
+    stats_columns = ["sequence", "total time [s]", "avg time [s]"]
     df_stats = pd.DataFrame(stats_data, columns=stats_columns)
 
     df_stats['sequence'] = pd.Categorical(df_stats['sequence'], ["plain", "stairs", "apartment",
@@ -105,7 +109,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Compute results statistics')
     parser.add_argument('input_dir', type=str,
                         help='Directory where the result files are located')
+    parser.add_argument('benchmark_dir', type=str, help='Benchmark txt problems location', nargs='?',
+                        default="/benchmark/point_clouds_registration_benchmark/devel/registration_pairs/")
     parser.add_argument('--write_csv', type=bool,
                         default=False)
+    parser.add_argument('--features', action='store_true', default=False)
     args = parser.parse_args()
     main(args)
