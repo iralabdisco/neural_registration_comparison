@@ -5,6 +5,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,linux
 
 data/
+*.pcd
 
 .idea/
 
