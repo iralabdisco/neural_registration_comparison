@@ -90,6 +90,8 @@ def main(args):
             print(df_stats[['oom_errors', 'runtime_errors']])
         if args.write_csv is True:
             df_stats.to_csv(f"{dir_results}/result_stats.csv", na_rep='NaN')
+        print(folder)
+        print(df_stats[['median', '0.75 Q', '0.95 Q']])
     print("----------")
     full_stats = pd.concat(all_stats, axis=1, keys=[f.split("_")[0] for f in folders])
     print(full_stats)
